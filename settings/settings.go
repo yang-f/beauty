@@ -12,12 +12,14 @@ var HmacSampleSecret = []byte("beauty")
 
 var LogFile = "/var/log/beauty/beauty.log"
 
+var SettingsFile = "/srv/filestore/settings/latest.json"
+
 var Domain = "beauty.com"
 
 var Mysql = map[string]string{}
 
 func init(){
-    bytes, err := ioutil.ReadFile("/srv/filestore/settings/latest.json")
+    bytes, err := ioutil.ReadFile(SettingsFile)
     if err != nil {
         log.Println("ReadFile: ", err.Error())
         return
