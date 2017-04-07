@@ -8,7 +8,6 @@ import(
 )
 
 func Query(sql string, params ...interface{})([]mysql.Row, mysql.Result, error) {
-    // db := mysql.New("tcp", "", settings.MYSQL.Url, settings.MYSQL.Username, settings.MYSQL.Userpass, settings.MYSQL.Database)
     db := mysql.New("tcp", "", settings.Local["mysql_host"], settings.Local["mysql_user"], settings.Local["mysql_pass"], settings.Local["mysql_database"])
     if err := db.Connect(); err != nil {
         log.Println(err)
