@@ -1,13 +1,13 @@
-
-#this is a simple framwork with golang.
-
+this is a simple framwork with golang.
+==============================
 
 you can build a simple restful project with it.
 
 
-##how to use:
+how to use:
+-------------------------------
 
-`
+```
 package main
 
 import (
@@ -57,11 +57,10 @@ func main() {
     log.Fatal(http.ListenAndServe(settings.Listen, router))
 
 }
-`
+```
 
-
-##support:
-
+support:
+--------------------------
 
 token 
 
