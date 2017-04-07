@@ -79,4 +79,10 @@ Support:
 * log
     ```golang
     settings.LogFile = "/you/log/path/beauty.log"
+    log.Printf(msg, params...)
     ```
+* utils
+    * Response
+    * Rand
+    * MD5
+    * Post
