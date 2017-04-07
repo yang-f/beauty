@@ -65,7 +65,9 @@ Support:
 --------------------------
 
 * token 
-    * token, err := token.Generate(user_id)
+    * ```golang
+    token, err := token.Generate(user_id)
+    ```
     * user_id, err := token.Valid(token)
 * db
     * db.Query(sql, params...)
