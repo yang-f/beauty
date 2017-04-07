@@ -71,8 +71,12 @@ Support:
     user_id, err := token.Valid(token)
     ```
 * db
-    * db.Query(sql, params...)
+    ```golang
+    db.Query(sql, params...)
+    ```
 * cors
 
 * log
-    * settings.LogFile = "/you/log/path/beauty.log"
+    ```golang
+    settings.LogFile = "/you/log/path/beauty.log"
+    ```
