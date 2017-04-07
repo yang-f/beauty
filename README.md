@@ -1,10 +1,10 @@
-this is a simple framwork with golang.
+A simple framwork with golang.
 ==============================
 
-you can build a simple restful project with it.
+You can build a simple restful project with it.
 
 
-how to use:
+How to use:
 -------------------------------
 
 ```
@@ -59,7 +59,7 @@ func main() {
 }
 ```
 
-support:
+Support:
 --------------------------
 
 token 
