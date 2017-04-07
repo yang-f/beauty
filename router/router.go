@@ -10,8 +10,8 @@ var router *mux.Router
 
 func NewRouter() *mux.Router {
 	if router == nil {
-        router = mux.NewRouter().StrictSlash(true)
-    }
+		router = mux.NewRouter().StrictSlash(true)
+	}
 	for _, route := range BRoutes {
 		var handler http.Handler = decorates.CorsHeader(route.HandlerFunc)
 		if(route.Auth){

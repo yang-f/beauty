@@ -6,9 +6,9 @@ import (
 )
 
 type Route struct {
-	Name        string
-	Method      string
-	Pattern     string
+	Name		string
+	Method	  	string
+	Pattern	 	string
 	Auth		bool
 	HandlerFunc http.HandlerFunc
 	ContentType string

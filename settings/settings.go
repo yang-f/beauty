@@ -1,9 +1,9 @@
 package settings
 
 import (
-    "log"
-    "encoding/json"
-    "io/ioutil"
+	"log"
+	"encoding/json"
+	"io/ioutil"
 )
 
 var Listen = ":8080"
@@ -17,14 +17,14 @@ var Domain = "beauty.com"
 var Local = map[string]string{}
 
 func init(){
-    bytes, err := ioutil.ReadFile("/srv/filestore/settings/latest.json")
-    if err != nil {
-        log.Println("ReadFile: ", err.Error())
-        return
-    }
+	bytes, err := ioutil.ReadFile("/srv/filestore/settings/latest.json")
+	if err != nil {
+		log.Println("ReadFile: ", err.Error())
+		return
+	}
  
-    if err := json.Unmarshal(bytes, &Local); err != nil {
-        log.Println("Unmarshal: ", err.Error())
-        return
-    }
+	if err := json.Unmarshal(bytes, &Local); err != nil {
+		log.Println("Unmarshal: ", err.Error())
+		return
+	}
 }
