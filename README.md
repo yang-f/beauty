@@ -65,7 +65,8 @@ Support:
 --------------------------
 
 * token 
-    * ```golang
+    * 
+    ```golang
     token, err := token.Generate(user_id)
     ```
     * user_id, err := token.Valid(token)
