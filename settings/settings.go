@@ -10,9 +10,9 @@ var Listen = ":8080"
 
 var HmacSampleSecret = []byte("hulu")
 
-var LogFile = "/var/log/hulu/facemark.log"
+var LogFile = "/var/log/beauty/beauty.log"
 
-var Domain = "beauty.com"
+var Domain = "xxxx.com"
 
 var Local = map[string]string{}
 

@@ -52,6 +52,8 @@ func main() {
 
     settings.Listen = ":8080"
 
+    settings.Domain = "youdomain.com"
+
     router := router.NewRouter()
 
     log.Fatal(http.ListenAndServe(settings.Listen, router))
@@ -63,9 +65,11 @@ Support:
 --------------------------
 
 * token 
-
+    * token, err := token.Generate(user_id)
+    * user_id, err := token.Valid(token)
 * db
-
+    * db.Query(sql, params...)
 * cors
 
 * log
+    * settings.LogFile = "/you/log/path/beauty.log"
