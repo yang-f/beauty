@@ -62,10 +62,10 @@ func main() {
 Support:
 --------------------------
 
-token 
+* token 
 
-db
+* db
 
-cors
+* cors
 
-log
+* log
