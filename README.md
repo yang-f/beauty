@@ -7,7 +7,7 @@ You can build a simple restful project with it.
 How to use:
 -------------------------------
 
-```
+```golang
 package main
 
 import (
