@@ -18,9 +18,6 @@ type  Users []User
 var CurrentUser = User{}
 
 func Config(w http.ResponseWriter, r *http.Request) {
-	b := []byte(`
-	{
-		"description":"this is json",
-	}`)
+	b := []byte(`{"description":"this is json"}`)
 	w.Write(b)
 }

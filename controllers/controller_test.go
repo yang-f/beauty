@@ -4,12 +4,9 @@ import (
     "net/http"
     "net/http/httptest"
     "testing"
-    "strings"
     "github.com/yang-f/beauty/router"
     "github.com/yang-f/beauty/settings"
     "github.com/yang-f/beauty/db"
-    "fmt"
-    "time"
 )
 
 func init() {
@@ -41,10 +38,7 @@ func TestConfig(t *testing.T){
         t.Errorf("handler returned wrong status code: got %v want %v",
             status, http.StatusOK)
     }
-    expected := `
-    {
-        "description":"this is json",
-    }`
+    expected := `{"description":"this is json"}`
     if rr.Body.String() != expected{
         t.Errorf("handler returned unexpected body: got %v want %v",
             rr.Body.String(), expected)
