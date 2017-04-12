@@ -81,6 +81,10 @@ Support:
     settings.LogFile = "/you/log/path/beauty.log"
     log.Printf(msg, params...)
     ```
+* sessions
+    ```golang
+    currentUser := sessions.CurrentUser(r *http.Request)
+    ```
 * utils
     * Response
     * Rand
