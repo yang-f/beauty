@@ -52,7 +52,9 @@ func main() {
 
     settings.Listen = ":8080"
 
-    settings.Domain = "youdomain.com"
+    settings.Domain = "yourdomain.com"
+
+    settings.LogFile = "/your/path/yourname.log"
 
     router := router.NewRouter()
 
@@ -66,6 +68,8 @@ Support:
 
 * token 
     ```golang
+    settings.HmacSampleSecret = "whatever"
+
     token, err := token.Generate(user_id)
     
     user_id, err := token.Valid(token)
