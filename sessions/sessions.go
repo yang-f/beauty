@@ -11,24 +11,24 @@ import (
 func CurrentUser(r *http.Request) *models.User {
 	cookie, err := r.Cookie("token")
 	if err != nil || cookie.Value == "" {
-		return models.User{}
+		return &models.User{}
 	}
 	key, err := token.Valid(cookie.Value)
 	if err != nil {
-		return models.User{}
+		return &models.User{}
 	}
 	if !strings.Contains(key, "|") {
-		return models.User{}
+		return &models.User{}
 	}
 	keys := strings.Split(key, "|")
 	rows, res, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
 
 	if err != nil {
-		return models.User{}
+		return &models.User{}
 	}
 
 	if len(rows) == 0 {
-		return models.User{}
+		return &models.User{}
 	}
 	row := rows[0]
 	user := models.User{
