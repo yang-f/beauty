@@ -95,6 +95,17 @@ Support:
     * MD5
     * Post
 
+Etc:
+    you need set a json file in '/srv/filestore/settings/latest.json' fomart this:
+    ```json
+    {
+        "mysql_host":"127.0.0.1:3306",
+        "mysql_user":"root",
+        "mysql_pass":"root",
+        "mysql_database":"beauty"
+    }
+    ```
+
 
 Contributing:
 ---------------------------------
