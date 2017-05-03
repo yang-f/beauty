@@ -81,6 +81,11 @@ Support:
     db.Query(sql, params...)
     ```
 * cors
+    static file server
+    ```golang
+    router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", decorates.CorsHeader2(http.FileServer(http.Dir("/your/static/path")))))
+    ```
+    etc: set with Route
 
 * log
     ```golang
