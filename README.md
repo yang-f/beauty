@@ -102,7 +102,11 @@ Support:
     ```golang
     func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
         xxx,err := someOprate()
-        return &models.APPError {err, Message, Code, Status}
+        if err != nil{
+            return &models.APPError {err, Message, Code, Status}
+        }
+        ...
+        return nil
     }
     ```
 
