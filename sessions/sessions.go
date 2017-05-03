@@ -5,6 +5,7 @@ import (
 	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/utils/token"
 	"net/http"
+	"strings"
 )
 
 func CurrentUser(r *http.Request) models.User {
@@ -12,12 +13,15 @@ func CurrentUser(r *http.Request) models.User {
 	if err != nil || cookie.Value == "" {
 		return models.User{}
 	}
-	user_id, err := token.Valid(cookie.Value)
+	key, err := token.Valid(cookie.Value)
 	if err != nil {
 		return models.User{}
 	}
-
-	rows, res, err := db.Query("select * from user where user_id= '%d'", user_id)
+	if !strings.Contains(key, "|") {
+		return models.User{}
+	}
+	keys := strings.Split(key, "|")
+	rows, res, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
 
 	if err != nil {
 		return models.User{}
