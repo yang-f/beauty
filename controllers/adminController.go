@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"facemark/models"
+	"github.com/yang-f/beauty/models"
 	"net/http"
 )
 
