@@ -96,8 +96,10 @@ Support:
     * Post
 
 Etc:
-    you need set a json file in '/srv/filestore/settings/latest.json' fomart this:
-    ```json
+-------------------------------------------------------
+    
+* you need set a json file in '/srv/filestore/settings/latest.json' fomart this
+    ```golang
     {
         "mysql_host":"127.0.0.1:3306",
         "mysql_user":"root",
