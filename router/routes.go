@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/yang-f/beauty/controllers"
-	"net/http"
+	"github.com/yang-f/beauty/decorates"
 )
 
 type Route struct {
@@ -10,7 +10,7 @@ type Route struct {
 	Method      string
 	Pattern     string
 	Auth        bool
-	HandlerFunc http.HandlerFunc
+	HandlerFunc decorates.Handler
 	ContentType string
 }
 

@@ -2,40 +2,36 @@ package decorates
 
 import (
 	"github.com/yang-f/beauty/db"
-	"github.com/yang-f/beauty/utils"
+	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/utils/log"
 	"github.com/yang-f/beauty/utils/token"
 	"net/http"
 	"strings"
 )
 
-func Auth(inner http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func Auth(inner Handler) Handler {
+	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		cookie, err := r.Cookie("token")
 		if err != nil || cookie.Value == "" {
-			utils.Response(w, "token not found.", "AUTH_FAILED", 403)
-			return
+			return &models.APPError{err, "token not found.", "AUTH_FAILED", 403}
 		}
 		key, err := token.Valid(cookie.Value)
 		if err != nil {
-			utils.Response(w, "bad token.", "AUTH_FAILED", 403)
-			return
+			return &models.APPError{err, "bad token.", "AUTH_FAILED", 403}
 		}
 		if !strings.Contains(key, "|") {
-			utils.Response(w, "user not found.", "NOT_FOUND", 404)
-			return
+			return &models.APPError{err, "user not found.", "NOT_FOUND", 404}
 		}
 		keys := strings.Split(key, "|")
 		rows, _, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
 		if err != nil {
-			utils.Response(w, "can not connect database.", "DB_ERROR", 500)
-			return
+			return &models.APPError{err, "can not connect database.", "DB_ERROR", 500}
 		}
 		if len(rows) == 0 {
-			utils.Response(w, "user not found.", "NOT_FOUND", 404)
-			return
+			return &models.APPError{err, "user not found.", "NOT_FOUND", 404}
 		}
 		log.Printf("user_id:%v", keys[0])
 		inner.ServeHTTP(w, r)
+		return nil
 	})
 }

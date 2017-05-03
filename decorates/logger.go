@@ -1,13 +1,14 @@
 package decorates
 
 import (
+	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/utils/log"
 	"net/http"
 	"time"
 )
 
-func Logger(inner http.Handler, name string) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func Logger(inner Handler, name string) Handler {
+	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		start := time.Now()
 
 		inner.ServeHTTP(w, r)
@@ -19,5 +20,6 @@ func Logger(inner http.Handler, name string) http.Handler {
 			name,
 			time.Since(start),
 		)
+		return nil
 	})
 }
