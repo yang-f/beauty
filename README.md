@@ -85,7 +85,7 @@ Support:
     ```golang
     router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", decorates.CorsHeader2(http.FileServer(http.Dir("/your/static/path")))))
     ```
-    * etc: 
+    * api etc: 
         * set with Route
 
 * log
