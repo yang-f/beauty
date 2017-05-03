@@ -42,7 +42,7 @@ func main() {
 
 	    false,
 
-	    controllers.Config,
+	    controllers.XxxxController,
 
 	    "application/json;charset=utf-8",
 
@@ -55,6 +55,8 @@ func main() {
     settings.Domain = "yourdomain.com"
 
     settings.LogFile = "/your/path/yourname.log"
+
+    settings.DefaultOrigin = "http://defaultorigin.com"
 
     router := router.NewRouter()
 
@@ -70,9 +72,9 @@ Support:
     ```golang
     settings.HmacSampleSecret = "whatever"
 
-    token, err := token.Generate(user_id)
+    token, err := token.Generate(origin)
     
-    user_id, err := token.Valid(token)
+    origin, err := token.Valid(token)
     ```
 * db
     ```golang
@@ -83,12 +85,21 @@ Support:
 * log
     ```golang
     settings.LogFile = "/you/log/path/beauty.log"
+
     log.Printf(msg, params...)
     ```
 * sessions
     ```golang
     currentUser := sessions.CurrentUser(r *http.Request)
     ```
+* error handler
+    ```golang
+    func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
+        xxx,err := someOprate()
+        return &models.APPError {err, Message, Code, Status}
+    }
+    ```
+
 * utils
     * Response
     * Rand
