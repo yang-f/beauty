@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net/http"
-	"github.com/yang-f/beauty/utils/log"
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
+	"github.com/yang-f/beauty/utils/log"
+	"net/http"
 )
 
 func main() {

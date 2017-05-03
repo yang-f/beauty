@@ -1,9 +1,9 @@
 package router
 
 import (
-	"net/http"
-	"github.com/yang-f/beauty/decorates"
 	"github.com/gorilla/mux"
+	"github.com/yang-f/beauty/decorates"
+	"net/http"
 )
 
 var router *mux.Router
@@ -14,10 +14,10 @@ func NewRouter() *mux.Router {
 	}
 	for _, route := range BRoutes {
 		var handler http.Handler = decorates.CorsHeader(route.HandlerFunc)
-		if(route.Auth){
+		if route.Auth {
 			handler = decorates.Auth(handler)
 		}
-		handler = decorates.ContentType(handler,route.ContentType)
+		handler = decorates.ContentType(handler, route.ContentType)
 		handler = decorates.Logger(handler, route.Name)
 		router.
 			Methods(route.Method).

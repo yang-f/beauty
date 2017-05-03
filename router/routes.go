@@ -1,15 +1,15 @@
 package router
 
 import (
-	"net/http"
 	"github.com/yang-f/beauty/controllers"
+	"net/http"
 )
 
 type Route struct {
-	Name		string
-	Method	  	string
-	Pattern	 	string
-	Auth		bool
+	Name        string
+	Method      string
+	Pattern     string
+	Auth        bool
 	HandlerFunc http.HandlerFunc
 	ContentType string
 }
