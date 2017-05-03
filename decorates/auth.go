@@ -1,10 +1,12 @@
 package decorates
 
 import (
+	"github.com/yang-f/beauty/db"
 	"github.com/yang-f/beauty/utils"
 	"github.com/yang-f/beauty/utils/log"
 	"github.com/yang-f/beauty/utils/token"
 	"net/http"
+	"strings"
 )
 
 func Auth(inner http.Handler) http.Handler {
@@ -14,12 +16,26 @@ func Auth(inner http.Handler) http.Handler {
 			utils.Response(w, "token not found.", "AUTH_FAILED", 403)
 			return
 		}
-		user_id, err := token.Valid(cookie.Value)
+		key, err := token.Valid(cookie.Value)
 		if err != nil {
 			utils.Response(w, "bad token.", "AUTH_FAILED", 403)
 			return
 		}
-		log.Printf("user_id:%v", user_id)
+		if !strings.Contains(key, "|") {
+			utils.Response(w, "user not found.", "NOT_FOUND", 404)
+			return
+		}
+		keys := strings.Split(key, "|")
+		rows, _, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
+		if err != nil {
+			utils.Response(w, "can not connect database.", "DB_ERROR", 500)
+			return
+		}
+		if len(rows) == 0 {
+			utils.Response(w, "user not found.", "NOT_FOUND", 404)
+			return
+		}
+		log.Printf("user_id:%v", keys[0])
 		inner.ServeHTTP(w, r)
 	})
 }
