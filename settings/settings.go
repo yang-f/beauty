@@ -14,6 +14,8 @@ var LogFile = "/var/log/beauty/beauty.log"
 
 var Domain = "xxxx.com"
 
+var DefaultOrigin = "http://origin.com"
+
 var Local = map[string]string{}
 
 func init() {

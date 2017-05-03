@@ -2,6 +2,7 @@ package decorates
 
 import (
 	"github.com/yang-f/beauty/models"
+	"github.com/yang-f/beauty/settings"
 	"net/http"
 )
 
@@ -9,7 +10,7 @@ func CorsHeader(inner Handler) Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		origin := r.Header.Get("Origin")
 		if origin == "" {
-			origin = "http://ar.huluuu.com"
+			origin = settings.DefaultOrigin
 		}
 		w.Header().Set("Access-Control-Allow-Origin", origin)
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
