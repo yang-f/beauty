@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func CurrentUser(r *http.Request) models.User {
+func CurrentUser(r *http.Request) *models.User {
 	cookie, err := r.Cookie("token")
 	if err != nil || cookie.Value == "" {
 		return models.User{}
@@ -37,5 +37,5 @@ func CurrentUser(r *http.Request) models.User {
 		User_type: row.Str(res.Map("user_type")),
 		Add_time:  row.Str(res.Map("add_time"))}
 
-	return user
+	return &user
 }
