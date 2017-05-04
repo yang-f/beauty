@@ -6,84 +6,84 @@ You can build a simple restful project with it.
 quick start:
 ------------------------------
 * run cmd
-```
-mkdir demo && cd demo
-go get github.com/yang-f/beauty
-```
+    ```
+    mkdir demo && cd demo
+    go get github.com/yang-f/beauty
+    ```
 * add $GOPATH/bin to your $PATH
 * run cmd
-```
-beauty
-```
+    ```
+    beauty
+    ```
 * then
-```golang
-2017/05/04 16:21:05 start server on port :8080
-```
+    ```golang
+    2017/05/04 16:21:05 start server on port :8080
+    ```
 * visit 127.0.0.1:8080
-```golang
-{"description":"this is json"}
-```
+    ```golang
+    {"description":"this is json"}
+    ```
 
 How to use:
 -------------------------------
 
-```golang
-package main
+    ```golang
+    package main
 
-import (
+    import (
 
-    "net/http"
+        "net/http"
 
-    "github.com/yang-f/beauty/utils/log"
+        "github.com/yang-f/beauty/utils/log"
 
-    "github.com/yang-f/beauty/router"
+        "github.com/yang-f/beauty/router"
 
-    "github.com/yang-f/beauty/settings"
+        "github.com/yang-f/beauty/settings"
 
-    "github.com/yang-f/beauty/controllers"
+        "github.com/yang-f/beauty/controllers"
 
-    "github.com/yang-f/beauty/decorates"
+        "github.com/yang-f/beauty/decorates"
 
-)
+    )
 
-func main() {
+    func main() {
 
-    log.Printf("start server on port %s", settings.Listen)
+        log.Printf("start server on port %s", settings.Listen)
 
-    router.BRoutes = router.Routes{
+        router.BRoutes = router.Routes{
 
-	router.Route{
+    	router.Route{
 
-	    "getConfig",
+    	    "getConfig",
 
-	    "GET",
+    	    "GET",
 
-	    "/",
+    	    "/",
 
-	    false,
+    	    false,
 
-	    controllers.XxxxController,
+    	    controllers.XxxxController,
 
-	    "application/json;charset=utf-8",
+    	    "application/json;charset=utf-8",
 
-	},
+    	},
+
+        }
+
+        settings.Listen = ":8080"
+
+        settings.Domain = "yourdomain.com"
+
+        settings.LogFile = "/your/path/yourname.log"
+
+        settings.DefaultOrigin = "http://defaultorigin.com"
+
+        router := router.NewRouter()
+
+        log.Fatal(http.ListenAndServe(settings.Listen, router))
 
     }
-
-    settings.Listen = ":8080"
-
-    settings.Domain = "yourdomain.com"
-
-    settings.LogFile = "/your/path/yourname.log"
-
-    settings.DefaultOrigin = "http://defaultorigin.com"
-
-    router := router.NewRouter()
-
-    log.Fatal(http.ListenAndServe(settings.Listen, router))
-
-}
-```
+    ```
 
 Support:
 --------------------------
@@ -136,10 +136,10 @@ Support:
     * MD5
     * Post
     * Trim
-    ```golang
-    strings.TrimFunc("ab12345cd", utils.Trim("abcd"))
-    //12345
-    ```
+        ```golang
+        strings.TrimFunc("ab12345cd", utils.Trim("abcd"))
+        //12345
+        ```
 
 Etc:
 -------------------------------------------------------
