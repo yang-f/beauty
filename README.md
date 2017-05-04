@@ -14,7 +14,7 @@ demo start:
 beauty
 ```
 ```golang
-//2017/05/04 16:21:05 start server on port :8080
+2017/05/04 16:21:05 start server on port :8080
 ```
 * visit 127.0.0.1:8080
 ```golang
