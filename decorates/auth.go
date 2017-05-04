@@ -30,7 +30,7 @@ func Auth(inner Handler) Handler {
 		if len(rows) == 0 {
 			return &models.APPError{err, "user not found.", "NOT_FOUND", 404}
 		}
-		log.Printf("user_id:%v", keys[0])
+		go log.Printf("user_id:%v", keys[0])
 		inner.ServeHTTP(w, r)
 		return nil
 	})

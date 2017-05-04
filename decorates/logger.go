@@ -13,7 +13,7 @@ func Logger(inner Handler, name string) Handler {
 
 		inner.ServeHTTP(w, r)
 
-		log.Printf(
+		go log.Printf(
 			"%s\t%s\t%s\t%s",
 			r.Method,
 			r.RequestURI,

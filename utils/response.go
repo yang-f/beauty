@@ -18,7 +18,7 @@ func Response(w http.ResponseWriter, description string, code string, status int
 	if err != nil {
 		return
 	}
-	log.Printf("response:\t%s", description)
+	go log.Printf("response:\t%s", description)
 	w.WriteHeader(status)
 	w.Write(b)
 }

@@ -14,7 +14,7 @@ func Query(sql string, params ...interface{}) ([]mysql.Row, mysql.Result, error)
 		return nil, nil, err
 	}
 	defer db.Close()
-	log.Printf("query:"+sql, params...)
+	go log.Printf("query:"+sql, params...)
 	raws, res, err := db.Query(sql, params...)
 	if err != nil {
 		log.Println(err)
