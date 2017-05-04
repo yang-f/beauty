@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"github.com/yang-f/beauty/settings"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -61,5 +62,5 @@ func Post(url string, params string) (string, error) {
 }
 
 func Trim(r rune) bool {
-	return strings.Contains("()nume", string(r))
+	return strings.Contains(settings.TrimArgs, string(r))
 }

@@ -18,6 +18,8 @@ var DefaultOrigin = "http://origin.com"
 
 var Local = map[string]string{}
 
+var TrimArgs = "whatever"
+
 func init() {
 	bytes, err := ioutil.ReadFile("/srv/filestore/settings/latest.json")
 	if err != nil {
