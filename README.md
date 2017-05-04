@@ -38,6 +38,11 @@ How to use:
         ContentType string //"application/json;charset=utf-8" or "text/html" etc...
     }
     ```
+* token generate
+    ```golang
+    tokenString, err := token.Generate(fmt.Sprintf("%v|%v", user_id", user_pass"))
+
+    ```
     
 * demo
     ```golang
