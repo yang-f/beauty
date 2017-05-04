@@ -3,7 +3,7 @@ A simple framwork with golang.
 
 You can build a simple restful project with it.
 
-demo start:
+quick start:
 ------------------------------
 
 * mkdir demo && cd demo
