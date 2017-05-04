@@ -27,6 +27,19 @@ quick start:
 How to use:
 -------------------------------
 
+* about Route
+    ```golang
+    type Route struct {
+        Name        string //Show route name in log file
+        Method      string //GET PUT POST DELETE ...
+        Pattern     string //Path
+        Auth        bool   //Auth token in cookie
+        HandlerFunc decorates.Handler //controller
+        ContentType string //"application/json;charset=utf-8" or "text/html" etc...
+    }
+    ```
+    
+* demo
     ```golang
     package main
 
