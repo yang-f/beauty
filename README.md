@@ -10,7 +10,7 @@ demo start:
 * go get github.com/yang-f/beauty
 * add $GOPATH/bin to your $PATH
 * run cmd
-```shell
+```
 beauty
 ```
 ```golang
@@ -20,7 +20,6 @@ beauty
 ```golang
 {"description":"this is json"}
 ```
-
 
 How to use:
 -------------------------------
