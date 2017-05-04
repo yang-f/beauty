@@ -5,6 +5,7 @@ You can build a simple restful project with it.
 
 demo start:
 ------------------------------
+
     * mkdir demo && cd demo
     * go get github.com/yang-f/beauty
     * add $GOPATH/bin to your $PATH
