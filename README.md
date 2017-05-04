@@ -9,6 +9,7 @@ quick start:
 ```
 mkdir demo && cd demo
 go get github.com/yang-f/beauty
+```
 * add $GOPATH/bin to your $PATH
 * run cmd
 ```
