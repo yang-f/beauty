@@ -40,7 +40,7 @@ How to use:
     ```
 * token generate
     ```golang
-    tokenString, err := token.Generate(fmt.Sprintf("%v|%v", user_id", user_pass"))
+    tokenString, err := token.Generate(fmt.Sprintf("%v|%v", user_id, user_pass))
 
     ```
     
