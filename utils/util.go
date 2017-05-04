@@ -61,5 +61,5 @@ func Post(url string, params string) (string, error) {
 }
 
 func Trim(r rune) bool {
-	return r == '(' || r == ')' || r == 'n' || r == 'u' || r == 'm' || r == 'e'
+	return strings.Contains("()nume", string(r))
 }
