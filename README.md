@@ -8,7 +8,10 @@ demo start:
     * mkdir demo && cd demo
     * go get github.com/yang-f/beauty
     * add $GOPATH/bin to your $PATH
-    * run beauty
+    * run cmd
+    ```shell
+    beauty
+    ```
     ```golang
     //2017/05/04 16:21:05 start server on port :8080
     ```
