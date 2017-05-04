@@ -14,7 +14,6 @@ func Generate(key string) (string, error) {
 	})
 
 	tokenString, err := token.SignedString(settings.HmacSampleSecret)
-	// fmt.Println(tokenString, err)
 	return tokenString, err
 }
 
