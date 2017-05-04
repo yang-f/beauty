@@ -3,6 +3,20 @@ A simple framwork with golang.
 
 You can build a simple restful project with it.
 
+demo start:
+------------------------------
+    * mkdir demo && cd demo
+    * go get github.com/yang-f/beauty
+    * add $GOPATH/bin to your $PATH
+    * run beauty
+    ```golang
+    //2017/05/04 16:21:05 start server on port :8080
+    ```
+    * visit 127.0.0.1:8080
+    ```golang
+    {"description":"this is json"}
+    ```
+
 
 How to use:
 -------------------------------
