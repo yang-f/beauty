@@ -205,4 +205,4 @@ Contributing:
 TODO:
 ----------------------------------
 
-* [ ] cmd tools
+* [ ] Cmd tools
