@@ -81,28 +81,24 @@ func archive() error {
 			shortFileName(settings.LogFile),
 			time.Now().Format("2006-01-02-15-04"),
 		)
-
-		_, err := os.Stat(target)
-		if os.IsNotExist(err) {
-			tmp := fmt.Sprintf("%v.%v.tmp",
-				shortFileName(settings.LogFile),
-				time.Now().Format("2006-01-02-15-04"),
-			)
-			in := bytes.NewBuffer(nil)
-			cmd := exec.Command("sh")
-			cmd.Stdin = in
-			go func() {
-				in.WriteString(fmt.Sprintf("cd %v\n", shortFileDir(settings.LogFile)))
-				in.WriteString(fmt.Sprintf("cp %v %v\n", shortFileName(settings.LogFile), tmp))
-				in.WriteString(fmt.Sprintf("echo '' > %v\n", shortFileName(settings.LogFile)))
-				in.WriteString(fmt.Sprintf("tar -czvf %v %v\n", target, tmp))
-				in.WriteString(fmt.Sprintf("rm %v\n", tmp))
-				in.WriteString("exit\n")
-			}()
-			if err := cmd.Run(); err != nil {
-				fmt.Println(err)
-				return err
-			}
+		tmp := fmt.Sprintf("%v.%v.tmp",
+			shortFileName(settings.LogFile),
+			time.Now().Format("2006-01-02-15-04"),
+		)
+		in := bytes.NewBuffer(nil)
+		cmd := exec.Command("sh")
+		cmd.Stdin = in
+		go func() {
+			in.WriteString(fmt.Sprintf("cd %v\n", shortFileDir(settings.LogFile)))
+			in.WriteString(fmt.Sprintf("cp %v %v\n", shortFileName(settings.LogFile), tmp))
+			in.WriteString(fmt.Sprintf("echo '' > %v\n", shortFileName(settings.LogFile)))
+			in.WriteString(fmt.Sprintf("tar -czvf %v %v\n", target, tmp))
+			in.WriteString(fmt.Sprintf("rm %v\n", tmp))
+			in.WriteString("exit\n")
+		}()
+		if err := cmd.Run(); err != nil {
+			fmt.Println(err)
+			return err
 		}
 	}
 	return nil
