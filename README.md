@@ -96,6 +96,8 @@ How to use:
 
         settings.DefaultOrigin = "http://defaultorigin.com"
 
+        settings.HmacSampleSecret = "whatever"
+
         router := router.NewRouter()
 
         log.Fatal(http.ListenAndServe(settings.Listen, router))
