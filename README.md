@@ -127,11 +127,13 @@ Support:
         * default is cors
 
 * log
+    * use
     ```golang
     settings.LogFile = "/you/log/path/beauty.log"
 
     log.Printf(msg, params...)
     ```
+    * auto archive
 * sessions
     ```golang
     currentUser := sessions.CurrentUser(r *http.Request)
