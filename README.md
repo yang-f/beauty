@@ -34,7 +34,7 @@ How to use:
         Method      string //GET PUT POST DELETE ...
         Pattern     string //Path
         Auth        bool   //Auth token in cookie
-        HandlerFunc decorates.Handler //controller
+        HandlerFunc decorates.Handler //Controller or handler
         ContentType string //"application/json;charset=utf-8" or "text/html" etc...
     }
     ```
