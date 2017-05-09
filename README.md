@@ -163,6 +163,11 @@ Support:
         //12345
         ```
 
+* test
+    * go test -v -bench=".*"
+    * go run controllers/controller_test.go
+    * ...
+
 Etc:
 -------------------------------------------------------
     
