@@ -59,9 +59,3 @@ func Post(url string, params string) (string, error) {
 
 	return string(body), nil
 }
-
-func Trim(args string) func(rune) bool {
-	return func(r rune) bool {
-		return strings.Contains(args, string(r))
-	}
-}

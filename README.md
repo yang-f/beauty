@@ -157,11 +157,6 @@ Support:
     * Rand
     * MD5
     * Post
-    * Trim
-        ```golang
-        strings.TrimFunc("ab12345cd", utils.Trim("abcd"))
-        //12345
-        ```
 
 * test
     * go test -v -bench=".*"
