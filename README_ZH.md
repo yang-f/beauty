@@ -18,7 +18,7 @@
     ```
     beauty
     ```
-* 这是会出现如下
+* 这时出现如下
     ```golang
     2017/05/04 16:21:05 start server on port :8080
     ```
@@ -139,12 +139,12 @@
 
     log.Printf(msg, params...)
     ```
-    * 每个12小时自动归档
+    * 每隔12小时且日志大于50M自动归档
 * 会话
     ```golang
     currentUser := sessions.CurrentUser(r *http.Request)
     ```
-* 错误处理
+* 错误处理以及http状态管理
     ```golang
     func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
         xxx,err := someOperation()
