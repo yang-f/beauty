@@ -92,15 +92,15 @@
 
         }
 
-        settings.Listen = ":8080"
+        settings.Listen = ":8080"//服务运行端口
 
-        settings.Domain = "yourdomain.com"
+        settings.Domain = "yourdomain.com"//部署服务的域名
 
-        settings.LogFile = "/your/path/yourname.log"
+        settings.LogFile = "/your/path/yourname.log"//日志所在文件
 
-        settings.DefaultOrigin = "http://defaultorigin.com"
+        settings.DefaultOrigin = "http://defaultorigin.com"//默认的请求来源
 
-        settings.HmacSampleSecret = "whatever"
+        settings.HmacSampleSecret = "whatever"//令牌生产需要的字符串
 
         router := router.NewRouter()
 
