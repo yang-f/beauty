@@ -30,9 +30,8 @@ func MD5(msg string, upper bool) string {
 	cipherStr := h.Sum(nil)
 	if upper {
 		return strings.ToUpper(hex.EncodeToString(cipherStr))
-	} else {
-		return hex.EncodeToString(cipherStr)
 	}
+	return hex.EncodeToString(cipherStr)
 }
 
 func Post(url string, params string) (string, error) {

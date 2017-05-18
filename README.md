@@ -143,7 +143,7 @@ Support:
 * error handler
     ```golang
     func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
-        xxx,err := someOprate()
+        xxx,err := someOperation()
         if err != nil{
             return &models.APPError {err, Message, Code, Status}
         }
