@@ -18,7 +18,7 @@
     ```
     beauty
     ```
-* 这时出现如下
+* 这时显示如下
     ```golang
     2017/05/04 16:21:05 start server on port :8080
     ```
