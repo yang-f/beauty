@@ -1,53 +1,54 @@
 * [English](README.md)
 * [中文](README_ZH.md)
 
-A simple framwork with golang.
+这是一个Golang实现的简易框架
 ==============================
 
-You can build a simple restful project with it.
+你通过它可以实现一个简单的restful工程。
 
-quick start:
+快速开始:
 ------------------------------
-* run cmd
+* 执行命令
     ```
     mkdir demo && cd demo
     go get github.com/yang-f/beauty
     ```
-* add $GOPATH/bin to your $PATH
-* run cmd
+* 将$GOPATH/bin 加入到$PATH 环境变量
+* 执行命令
     ```
     beauty
     ```
-* then
+* 这是会出现如下
     ```golang
     2017/05/04 16:21:05 start server on port :8080
     ```
-* visit 127.0.0.1:8080
+* 通过浏览器访问 127.0.0.1:8080
     ```golang
     {"description":"this is json"}
     ```
+* 恭喜你，运行成功。
 
-How to use:
+如何使用:
 -------------------------------
 
-* about Route
+* 关于路由
     ```golang
     type Route struct {
-        Name        string //Show route name in log file
+        Name        string //日志中显示的路由名称
         Method      string //GET PUT POST DELETE ...
-        Pattern     string //Path
-        Auth        bool   //Auth token in cookie
-        HandlerFunc decorates.Handler //Controller or handler
-        ContentType string //"application/json;charset=utf-8" or "text/html" etc...
+        Pattern     string //对用的访问路径
+        Auth        bool   //是否验证token（cookie中）
+        HandlerFunc decorates.Handler //处理当前路由的Controller或者handler
+        ContentType string //返回的数据类型"application/json;charset=utf-8" 或者 "text/html" 等等 ...
     }
     ```
-* token generate
+* token生成
     ```golang
     tokenString, err := token.Generate(fmt.Sprintf("%v|%v", user_id, user_pass))
 
     ```
     
-* demo
+* 小例子
     ```golang
     package main
 
@@ -108,10 +109,10 @@ How to use:
     }
     ```
 
-Support:
+支持特性:
 --------------------------
 
-* token 
+* 令牌 
     ```golang
     settings.HmacSampleSecret = "whatever"
 
@@ -119,31 +120,31 @@ Support:
     
     origin, err := token.Valid(token)
     ```
-* db
+* 数据库操作（基于mymysql）
     ```golang
     db.Query(sql, params...)
     ```
-* cors
-    * static file server
+* cors跨域
+    * 静态文件
     ```golang
     router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", decorates.CorsHeader2(http.FileServer(http.Dir("/your/static/path")))))
     ```
-    * api etc: 
-        * default is cors
+    * 其他: 
+        * 默认是支持跨域操作的
 
-* log
-    * use
+* 日志
+    * 使用
     ```golang
     settings.LogFile = "/you/log/path/beauty.log"
 
     log.Printf(msg, params...)
     ```
-    * auto archive
-* sessions
+    * 每个12小时自动归档
+* 会话
     ```golang
     currentUser := sessions.CurrentUser(r *http.Request)
     ```
-* error handler
+* 错误处理
     ```golang
     func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
         xxx,err := someOperation()
@@ -155,18 +156,18 @@ Support:
     }
     ```
 
-* utils
+* 工具
     * Response
     * Rand
     * MD5
     * Post
 
-* test
+* 测试
     * go test -v -bench=".*"
     * go run controllers/controller_test.go
     * ...
 
-Etc:
+其他:
 -------------------------------------------------------
     
 * sql
@@ -185,7 +186,7 @@ Etc:
 
     insert into user (user_name, user_pass) values('admin', 'admin');
     ``` 
-* you need set a json file in '/srv/filestore/settings/latest.json' fomart like this
+* 你需要编辑一个配置文件'/srv/filestore/settings/latest.json' 格式如下：
     ```golang
     {
         "mysql_host":"127.0.0.1:3306",
@@ -196,18 +197,19 @@ Etc:
     ```
 
 
-Contributing:
+贡献代码:
 ---------------------------------
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+1. Fork代码!
+2. 创建新的分支: `git checkout -b my-new-feature`
+3. 提交更改: `git commit -m 'Add some feature'`
+4. push到分支: `git push origin my-new-feature`
+5. 发起一个pull request :D
 
-TODO:
+将要实现:
 ----------------------------------
 
-* [ ] Cmd tools
-* [ ] Improve document
-* [ ] Role review
+* [ ] 命令行工具
+* [ ] 继续提升文档质量
+* [ ] 权限控制
+* [ ] 增加测试覆盖率
