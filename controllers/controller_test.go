@@ -47,22 +47,22 @@ func TestConfig(t *testing.T) {
 }
 
 func Benchmark_config(b *testing.B) {
-	for i := 0; i < b.N; i++ { //use b.N for looping
+	for i := 0; i < b.N; i++ {
 		req, err := http.NewRequest("GET", "/", nil)
 		if err != nil {
-			t.Fatal(err)
+			b.Fatal(err)
 		}
 		rr := httptest.NewRecorder()
 
 		router := router.NewRouter()
 		router.ServeHTTP(rr, req)
 		if status := rr.Code; status != http.StatusOK {
-			t.Errorf("handler returned wrong status code: got %v want %v",
+			b.Errorf("handler returned wrong status code: got %v want %v",
 				status, http.StatusOK)
 		}
 		expected := `{"description":"this is json"}`
 		if rr.Body.String() != expected {
-			t.Errorf("handler returned unexpected body: got %v want %v",
+			b.Errorf("handler returned unexpected body: got %v want %v",
 				rr.Body.String(), expected)
 		}
 	}
