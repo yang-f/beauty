@@ -160,7 +160,19 @@
 
 支持特性:
 --------------------------
-
+* 参数校验
+    * 这是一个统一的参数校验，主要是针对SQL注入，有了它，或许就不用一个一个参数做校验了。
+    * 使用方式
+    ```golang
+    router.Route{
+        "authDemo",
+        "GET",
+        "/demo1",
+        Handler(controllers.Config).
+            Verify(),
+        "application/json;charset=utf-8",
+    },//需要验证用户信息
+    ```
 * 令牌 
     ```golang
     settings.HmacSampleSecret = "whatever"
