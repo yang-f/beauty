@@ -26,6 +26,22 @@
     ```golang
     {"description":"this is json"}
     ```
+
+* 访问 127.0.0.1:8080/demo1
+    ```golang
+    {"status":403,"description":"token not found.","code":"AUTH_FAILED"}
+    ```
+
+* 访问 127.0.0.1:8080/demo2
+    ```golang
+    {"description":"this is json"}
+    ```
+    
+* 访问 127.0.0.1:8080/demo3
+    ```golang
+    {"status":403,"description":"token not found.","code":"AUTH_FAILED"}
+    ```
+    
 * 恭喜你，运行成功。
 
 如何使用:
@@ -74,7 +90,7 @@
             router.Route{
                 "verifyAndAuthDemo",
                 "GET",
-                "/demo2",
+                "/demo3",
                 Handler(controllers.Config).
                     Auth().
                     Verify(),
@@ -133,7 +149,7 @@
             router.Route{
                 "verifyAndAuthDemo",
                 "GET",
-                "/demo2",
+                "/demo3",
                 Handler(controllers.Config).
                     Auth().
                     Verify(),

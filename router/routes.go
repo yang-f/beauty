@@ -42,7 +42,7 @@ var BRoutes = Routes{
 	Route{
 		"verifyAndAuthDemo",
 		"GET",
-		"/demo2",
+		"/demo3",
 		Handler(Config).
 			Auth().
 			Verify(),
