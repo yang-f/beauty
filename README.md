@@ -36,10 +36,46 @@ How to use:
         Name        string //Show route name in log file
         Method      string //GET PUT POST DELETE ...
         Pattern     string //Path
-        Auth        bool   //Auth token in cookie
         HandlerFunc decorates.Handler //Controller or handler
         ContentType string //"application/json;charset=utf-8" or "text/html" etc...
     }
+    ```
+    * demo
+    ```golang
+        router.BRoutes = router.Routes{
+            router.Route{
+                "nothing",
+                "GET",
+                "/",
+                controllers.Config,
+                "application/json;charset=utf-8",
+            },//normal route
+            router.Route{
+                "authDemo",
+                "GET",
+                "/demo1",
+                Handler(controllers.Config).
+                    Auth(),
+                "application/json;charset=utf-8",
+            },//route need auth
+            router.Route{
+                "verifyDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Verify(),
+                "application/json;charset=utf-8",
+            },//route need verify, such as sql injection
+            router.Route{
+                "verifyAndAuthDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Auth().
+                    Verify(),
+                "application/json;charset=utf-8",
+            },//both
+        }
     ```
 * token generate
     ```golang
@@ -52,18 +88,12 @@ How to use:
     package main
 
     import (
-
         "net/http"
-
         "github.com/yang-f/beauty/utils/log"
-
         "github.com/yang-f/beauty/router"
-
         "github.com/yang-f/beauty/settings"
-
         "github.com/yang-f/beauty/controllers"
-
-        "github.com/yang-f/beauty/decorates"
+        . "github.com/yang-f/beauty/decorates"
 
     )
 
@@ -72,23 +102,38 @@ How to use:
         log.Printf("start server on port %s", settings.Listen)
 
         router.BRoutes = router.Routes{
-
-    	router.Route{
-
-    	    "getConfig",
-
-    	    "GET",
-
-    	    "/",
-
-    	    false,
-
-    	    controllers.XxxxController,
-
-    	    "application/json;charset=utf-8",
-
-    	},
-
+        	router.Route{
+                "nothing",
+                "GET",
+                "/",
+                controllers.Config,
+                "application/json;charset=utf-8",
+            },
+            router.Route{
+                "authDemo",
+                "GET",
+                "/demo1",
+                Handler(controllers.Config).
+                    Auth(),
+                "application/json;charset=utf-8",
+            },
+            router.Route{
+                "verifyDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Verify(),
+                "application/json;charset=utf-8",
+            },
+            router.Route{
+                "verifyAndAuthDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Auth().
+                    Verify(),
+                "application/json;charset=utf-8",
+            },
         }
 
         settings.Listen = ":8080"

@@ -37,10 +37,50 @@
         Name        string //日志中显示的路由名称
         Method      string //GET PUT POST DELETE ...
         Pattern     string //对用的访问路径
-        Auth        bool   //是否验证token（cookie中）
         HandlerFunc decorates.Handler //处理当前路由的Controller或者handler
         ContentType string //返回的数据类型"application/json;charset=utf-8" 或者 "text/html" 等等 ...
     }
+    ```
+    * 例子
+    ```golang
+        import (
+            . "github.com/yang-f/beauty/decorates"
+
+        )
+        router.BRoutes = router.Routes{
+            router.Route{
+                "nothing",
+                "GET",
+                "/",
+                controllers.Config,
+                "application/json;charset=utf-8",
+            },//正常路由
+            router.Route{
+                "authDemo",
+                "GET",
+                "/demo1",
+                Handler(controllers.Config).
+                    Auth(),
+                "application/json;charset=utf-8",
+            },//需要验证用户信息
+            router.Route{
+                "verifyDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Verify(),
+                "application/json;charset=utf-8",
+            },//需要过滤非法提交信息，比如SQL注入
+            router.Route{
+                "verifyAndAuthDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Auth().
+                    Verify(),
+                "application/json;charset=utf-8",
+            },//都需要，也可以自己扩展，参考decorate实现。
+        }
     ```
 * token生成
     ```golang
@@ -53,18 +93,12 @@
     package main
 
     import (
-
         "net/http"
-
         "github.com/yang-f/beauty/utils/log"
-
         "github.com/yang-f/beauty/router"
-
         "github.com/yang-f/beauty/settings"
-
         "github.com/yang-f/beauty/controllers"
-
-        "github.com/yang-f/beauty/decorates"
+        . "github.com/yang-f/beauty/decorates"
 
     )
 
@@ -73,23 +107,38 @@
         log.Printf("start server on port %s", settings.Listen)
 
         router.BRoutes = router.Routes{
-
-    	router.Route{
-
-    	    "getConfig",
-
-    	    "GET",
-
-    	    "/",
-
-    	    false,
-
-    	    controllers.XxxxController,
-
-    	    "application/json;charset=utf-8",
-
-    	},
-
+            router.Route{
+                "nothing",
+                "GET",
+                "/",
+                controllers.Config,
+                "application/json;charset=utf-8",
+            },
+            router.Route{
+                "authDemo",
+                "GET",
+                "/demo1",
+                Handler(controllers.Config).
+                    Auth(),
+                "application/json;charset=utf-8",
+            },
+            router.Route{
+                "verifyDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Verify(),
+                "application/json;charset=utf-8",
+            },
+            router.Route{
+                "verifyAndAuthDemo",
+                "GET",
+                "/demo2",
+                Handler(controllers.Config).
+                    Auth().
+                    Verify(),
+                "application/json;charset=utf-8",
+            },
         }
 
         settings.Listen = ":8080"//服务运行端口
