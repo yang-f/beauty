@@ -2,9 +2,9 @@ package decorates
 
 import (
 	"bytes"
-	"facemark/models"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/yang-f/beauty/models"
 	"io/ioutil"
 	"net/http"
 	"regexp"
