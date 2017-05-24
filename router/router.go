@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/yang-f/beauty/decorates"
+	. "github.com/yang-f/beauty/decorates"
 	"github.com/yang-f/beauty/models"
 	"net/http"
 )
@@ -14,12 +14,9 @@ func NewRouter() *mux.Router {
 		router = mux.NewRouter().StrictSlash(true)
 	}
 	for _, route := range BRoutes {
-		var handler decorates.Handler = decorates.CorsHeader(route.HandlerFunc)
-		if route.Auth {
-			handler = decorates.Auth(handler)
-		}
-		handler = decorates.ContentType(handler, route.ContentType)
-		handler = decorates.Logger(handler, route.Name)
+		var handler Handler = CorsHeader(route.HandlerFunc)
+		handler = ContentType(handler, route.ContentType)
+		handler = Logger(handler, route.Name)
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
@@ -29,7 +26,7 @@ func NewRouter() *mux.Router {
 			Methods("OPTIONS").
 			Path(route.Pattern).
 			Name("cors").
-			Handler(decorates.CorsHeader(decorates.Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
+			Handler(CorsHeader(Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 				return nil
 			})))
 	}

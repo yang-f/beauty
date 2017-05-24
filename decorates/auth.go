@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func Auth(inner Handler) Handler {
+func (inner Handler) Auth() Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		cookie, err := r.Cookie("token")
 		if err != nil || cookie.Value == "" {
