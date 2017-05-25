@@ -25,25 +25,39 @@ func init() {
 	db.Query(`insert into user (user_name, user_pass, user_mobile, add_time) values('test', 'test', '12345678901', '2017-01-12 12:15:38')`)
 }
 
+type tester struct {
+	Pattern  string
+	Status   int
+	Expected string
+	Method   string
+}
+
 func TestConfig(t *testing.T) {
-	req, err := http.NewRequest("GET", "/", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	rr := httptest.NewRecorder()
-
-	router := router.NewRouter()
-	router.ServeHTTP(rr, req)
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-	expected := `{"description":"this is json"}`
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v",
-			rr.Body.String(), expected)
+	var tests = []tester{
+		{"/", 200, `{"description":"this is json"}`, "GET"},
+		{"/demo1", 403, `{"status":403,"description":"token not found.","code":"AUTH_FAILED"}`, "GET"},
+		{"/demo2", 200, `{"description":"this is json"}`, "GET"},
+		{"/demo3", 403, `{"status":403,"description":"token not found.","code":"AUTH_FAILED"}`, "GET"},
 	}
 
+	for _, test := range tests {
+		req, err := http.NewRequest(test.Method, test.Pattern, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		rr := httptest.NewRecorder()
+
+		router := router.NewRouter()
+		router.ServeHTTP(rr, req)
+		if status := rr.Code; status != test.Status {
+			t.Errorf("handler returned wrong status code: got %v want %v",
+				status, http.StatusOK)
+		}
+		if rr.Body.String() != test.Expected {
+			t.Errorf("handler returned unexpected body: got %v want %v",
+				rr.Body.String(), test.Expected)
+		}
+	}
 }
 
 func Benchmark_config(b *testing.B) {
