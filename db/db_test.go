@@ -63,7 +63,9 @@ func TestQuery(t *testing.T) {
 				t.Errorf("returned wrong err code: got %v want %v",
 					err.Error(), test.err)
 			}
-		} else if err != test.err {
+			continue
+		}
+		if err != test.err {
 			t.Errorf("returned wrong err code: got %v want %v",
 				err.Error(), test.err)
 		}
