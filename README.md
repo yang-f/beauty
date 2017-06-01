@@ -1,6 +1,8 @@
 * [English](README.md)
 * [中文](README_ZH.md)
 
+[![GoDoc](https://godoc.org/github.com/imroc/req?status.svg)](https://godoc.org/github.com/imroc/req)
+
 A simple framwork with golang.
 ==============================
 
