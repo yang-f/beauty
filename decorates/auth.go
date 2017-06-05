@@ -33,11 +33,23 @@ import (
 
 func (inner Handler) Auth() Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
-		cookie, err := r.Cookie("token")
-		if err != nil || cookie.Value == "" {
-			return &models.APPError{err, "token not found.", "AUTH_FAILED", 403}
+		tokenString := ""
+
+		if r.Header != nil {
+			if authorization := r.Header["Authorization"]; len(authorization) > 0 {
+				tokenString = authorization[0]
+			}
 		}
-		key, err := token.Valid(cookie.Value)
+
+		if tokenString == "" {
+			cookie, err := r.Cookie("token")
+			if err != nil {
+				return &models.APPError{err, "token not found.", "AUTH_FAILED", 403}
+			}
+			tokenString = cookie.Value
+		}
+
+		key, err := token.Valid(tokenString)
 		if err != nil {
 			return &models.APPError{err, "bad token.", "AUTH_FAILED", 403}
 		}
