@@ -65,7 +65,7 @@ How to use:
                 "GET",
                 "/",
                 controllers.Config,
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//normal route
             router.Route{
                 "authDemo",
@@ -73,7 +73,7 @@ How to use:
                 "/demo1",
                 Handler(controllers.Config).
                     Auth(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//route need auth
             router.Route{
                 "verifyDemo",
@@ -81,7 +81,7 @@ How to use:
                 "/demo2",
                 Handler(controllers.Config).
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//route need verify, such as sql injection
             router.Route{
                 "verifyAndAuthDemo",
@@ -90,7 +90,7 @@ How to use:
                 Handler(controllers.Config).
                     Auth().
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//both
         }
     ```
@@ -106,6 +106,7 @@ How to use:
 
     import (
         "net/http"
+        "github.com/yang-f/beauty/consts/contenttype"
         "github.com/yang-f/beauty/utils/log"
         "github.com/yang-f/beauty/router"
         "github.com/yang-f/beauty/settings"
@@ -124,7 +125,7 @@ How to use:
                 "GET",
                 "/",
                 controllers.Config,
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
             router.Route{
                 "authDemo",
@@ -132,7 +133,7 @@ How to use:
                 "/demo1",
                 Handler(controllers.Config).
                     Auth(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
             router.Route{
                 "verifyDemo",
@@ -140,7 +141,7 @@ How to use:
                 "/demo2",
                 Handler(controllers.Config).
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
             router.Route{
                 "verifyAndAuthDemo",
@@ -149,7 +150,7 @@ How to use:
                 Handler(controllers.Config).
                     Auth().
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
         }
 

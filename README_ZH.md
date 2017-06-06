@@ -71,7 +71,7 @@
                 "GET",
                 "/",
                 controllers.Config,
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//正常路由
             router.Route{
                 "authDemo",
@@ -79,7 +79,7 @@
                 "/demo1",
                 Handler(controllers.Config).
                     Auth(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//需要验证用户信息
             router.Route{
                 "verifyDemo",
@@ -87,7 +87,7 @@
                 "/demo2",
                 Handler(controllers.Config).
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//需要过滤非法提交信息，比如SQL注入
             router.Route{
                 "verifyAndAuthDemo",
@@ -96,7 +96,7 @@
                 Handler(controllers.Config).
                     Auth().
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },//都需要，也可以自己扩展，参考decorate实现。
         }
     ```
@@ -112,6 +112,7 @@
 
     import (
         "net/http"
+        "github.com/yang-f/beauty/consts/contenttype"
         "github.com/yang-f/beauty/utils/log"
         "github.com/yang-f/beauty/router"
         "github.com/yang-f/beauty/settings"
@@ -130,7 +131,7 @@
                 "GET",
                 "/",
                 controllers.Config,
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
             router.Route{
                 "authDemo",
@@ -138,7 +139,7 @@
                 "/demo1",
                 Handler(controllers.Config).
                     Auth(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
             router.Route{
                 "verifyDemo",
@@ -146,7 +147,7 @@
                 "/demo2",
                 Handler(controllers.Config).
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
             router.Route{
                 "verifyAndAuthDemo",
@@ -155,7 +156,7 @@
                 Handler(controllers.Config).
                     Auth().
                     Verify(),
-                "application/json;charset=utf-8",
+                contenttype.JSON,
             },
         }
 
@@ -188,7 +189,7 @@
         "/demo1",
         Handler(controllers.Config).
             Verify(),
-        "application/json;charset=utf-8",
+        contenttype.JSON,
     },//需要验证用户信息
     ```
 * 令牌 
