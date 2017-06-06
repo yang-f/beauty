@@ -23,6 +23,7 @@
 package router
 
 import (
+	"github.com/yang-f/beauty/consts/contenttype"
 	. "github.com/yang-f/beauty/controllers"
 	. "github.com/yang-f/beauty/decorates"
 )
@@ -43,7 +44,7 @@ var BRoutes = Routes{
 		"GET",
 		"/",
 		Config,
-		"application/json;charset=utf-8",
+		contenttype.JSON,
 	},
 	Route{
 		"authDemo",
@@ -51,7 +52,7 @@ var BRoutes = Routes{
 		"/demo1",
 		Handler(Config).
 			Auth(),
-		"application/json;charset=utf-8",
+		contenttype.JSON,
 	},
 	Route{
 		"verifyDemo",
@@ -59,7 +60,7 @@ var BRoutes = Routes{
 		"/demo2",
 		Handler(Config).
 			Verify(),
-		"application/json;charset=utf-8",
+		contenttype.JSON,
 	},
 	Route{
 		"verifyAndAuthDemo",
@@ -68,6 +69,6 @@ var BRoutes = Routes{
 		Handler(Config).
 			Auth().
 			Verify(),
-		"application/json;charset=utf-8",
+		contenttype.JSON,
 	},
 }

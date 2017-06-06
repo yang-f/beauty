@@ -34,13 +34,11 @@ import (
 func (inner Handler) Auth() Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		tokenString := ""
-
 		if r.Header != nil {
 			if authorization := r.Header["Authorization"]; len(authorization) > 0 {
 				tokenString = authorization[0]
 			}
 		}
-
 		if tokenString == "" {
 			cookie, err := r.Cookie("token")
 			if err != nil {
@@ -48,7 +46,6 @@ func (inner Handler) Auth() Handler {
 			}
 			tokenString = cookie.Value
 		}
-
 		key, err := token.Valid(tokenString)
 		if err != nil {
 			return &models.APPError{err, "bad token.", "AUTH_FAILED", 403}
