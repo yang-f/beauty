@@ -34,17 +34,16 @@ import (
 func (inner Handler) Auth() Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		tokenString := ""
-		if r.Header != nil {
-			if authorization := r.Header["Authorization"]; len(authorization) > 0 {
-				tokenString = authorization[0]
-			}
+		cookie, _ := r.Cookie("token")
+		if cookie != nil {
+			tokenString = cookie.Value
 		}
 		if tokenString == "" {
-			cookie, err := r.Cookie("token")
-			if err != nil {
-				return &models.APPError{err, "token not found.", "AUTH_FAILED", 403}
+			if r.Header != nil {
+				if authorization := r.Header["Authorization"]; len(authorization) > 0 {
+					tokenString = authorization[0]
+				}
 			}
-			tokenString = cookie.Value
 		}
 		key, err := token.Valid(tokenString)
 		if err != nil {
