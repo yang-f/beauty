@@ -30,29 +30,25 @@ import (
 )
 
 func Query(sql string, params ...interface{}) ([]mysql.Row, mysql.Result, error) {
-	db := mysql.New("tcp", "", settings.Local["mysql_host"], settings.Local["mysql_user"], settings.Local["mysql_pass"], settings.Local["mysql_database"])
-	if err := db.Connect(); err != nil {
-		log.Println(err)
-		return nil, nil, err
-	}
-	defer db.Close()
-	go log.Printf("query:"+sql, params...)
-	raws, res, err := db.Query(sql, params...)
-	if err != nil {
-		log.Println(err)
-		return nil, nil, err
-	}
-
+	raws, res, err := query(sql, true, params...)
 	return raws, res, err
 }
 
 func QueryNonLogging(sql string, params ...interface{}) ([]mysql.Row, mysql.Result, error) {
+	raws, res, err := query(sql, false, params...)
+	return raws, res, err
+}
+
+func query(sql string, logging bool, params ...interface{}) ([]mysql.Row, mysql.Result, error) {
 	db := mysql.New("tcp", "", settings.Local["mysql_host"], settings.Local["mysql_user"], settings.Local["mysql_pass"], settings.Local["mysql_database"])
 	if err := db.Connect(); err != nil {
 		log.Println(err)
 		return nil, nil, err
 	}
 	defer db.Close()
+	if logging {
+		go log.Printf("query:"+sql, params...)
+	}
 	raws, res, err := db.Query(sql, params...)
 	if err != nil {
 		log.Println(err)
