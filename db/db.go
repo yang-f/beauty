@@ -30,13 +30,11 @@ import (
 )
 
 func Query(sql string, params ...interface{}) ([]mysql.Row, mysql.Result, error) {
-	raws, res, err := query(sql, true, params...)
-	return raws, res, err
+	return query(sql, true, params...)
 }
 
 func QueryNonLogging(sql string, params ...interface{}) ([]mysql.Row, mysql.Result, error) {
-	raws, res, err := query(sql, false, params...)
-	return raws, res, err
+	return query(sql, false, params...)
 }
 
 func query(sql string, logging bool, params ...interface{}) ([]mysql.Row, mysql.Result, error) {
