@@ -23,14 +23,17 @@
 package utils
 
 import (
+	"archive/zip"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -79,4 +82,81 @@ func Post(url string, params string) (string, error) {
 	}
 
 	return string(body), nil
+}
+
+func Unzip(src_zip string, dest string) error {
+	unzip_file, err := zip.OpenReader(src_zip)
+	if err != nil {
+		return err
+	}
+	os.MkdirAll(dest, 0755)
+	for _, f := range unzip_file.File {
+		rc, err := f.Open()
+		if err != nil {
+			return err
+		}
+		path := filepath.Join(dest, f.Name)
+		if f.FileInfo().IsDir() {
+			os.MkdirAll(path, f.Mode())
+		} else {
+			f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+			if err != nil {
+				return err
+			}
+			_, err = io.Copy(f, rc)
+			if err != nil {
+				if err != io.EOF {
+					return err
+				}
+			}
+			f.Close()
+		}
+	}
+	unzip_file.Close()
+	return nil
+}
+
+func CopyFile(dstName, srcName string) (written int64, err error) {
+	src, err := os.Open(srcName)
+	if err != nil {
+		return
+	}
+	defer src.Close()
+	dst, err := os.OpenFile(dstName, os.O_WRONLY|os.O_CREATE, 0644)
+	if err != nil {
+		return
+	}
+	defer dst.Close()
+	return io.Copy(dst, src)
+}
+
+type ReplaceHelper struct {
+	Root    string
+	OldText string
+	NewText string
+}
+
+func (h *ReplaceHelper) DoWrok() error {
+	return filepath.Walk(h.Root, h.walkCallback)
+}
+
+func (h ReplaceHelper) walkCallback(path string, f os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+	if f == nil {
+		return nil
+	}
+	if f.IsDir() {
+		return nil
+	}
+
+	buf, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	content := string(buf)
+	newContent := strings.Replace(content, h.OldText, h.NewText, -1)
+	ioutil.WriteFile(path, []byte(newContent), 0)
+	return err
 }

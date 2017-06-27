@@ -23,14 +23,46 @@
 package main
 
 import (
+	"fmt"
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
+	"github.com/yang-f/beauty/utils"
 	"github.com/yang-f/beauty/utils/log"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"net/http"
+	"os"
+)
+
+var (
+	app      = kingpin.New("beauty", "A command-line tools of beauty.")
+	demo     = app.Command("demo", "Demo of web server.")
+	generate = app.Command("generate", "Generate a new app.")
+	name     = generate.Arg("name", "AppName for app.").Required().String()
 )
 
 func main() {
-	log.Printf("start server on port %s", settings.Listen)
-	router := router.NewRouter()
-	log.Fatal(http.ListenAndServe(settings.Listen, router))
+	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
+	case generate.FullCommand():
+		GOPATH := os.Getenv("GOPATH")
+		appPath := fmt.Sprintf("%v/src/%v", GOPATH, *name)
+		origin := fmt.Sprintf("%v/src/github.com/yang-f/beauty/etc/demo.zip", GOPATH)
+		dst := fmt.Sprintf("%v.zip", appPath)
+		_, err := utils.CopyFile(dst, origin)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		utils.Unzip(dst, appPath)
+		os.RemoveAll(dst)
+		helper := utils.ReplaceHelper{
+			Root:    appPath,
+			OldText: "{appName}",
+			NewText: *name,
+		}
+		helper.DoWrok()
+		log.Printf("Generate %s success.", *name)
+	case demo.FullCommand():
+		log.Printf("Start server on port %s", settings.Listen)
+		router := router.NewRouter()
+		log.Fatal(http.ListenAndServe(settings.Listen, router))
+	}
 }
