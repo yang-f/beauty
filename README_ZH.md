@@ -13,6 +13,7 @@
 * 执行命令
     ```
     mkdir demo && cd demo
+    go get gopkg.in/alecthomas/kingpin.v2
     go get github.com/yang-f/beauty
     ```
 * 将$GOPATH/bin 加入到$PATH 环境变量
@@ -21,6 +22,29 @@
     beauty
     ```
 * 这时显示如下
+    ```
+        usage: beauty [<flags>] <command> [<args> ...]
+        
+        A command-line tools of beauty.
+        
+        Flags:
+          --help  Show context-sensitive help (also try --help-long and --help-man).
+        
+        Commands:
+          help [<command>...]
+            Show help.
+        
+          demo
+            Demo of web server.
+        
+          generate <name>
+            Generate a new app.
+    ```
+* 测试beauty
+    ```
+    beauty demo
+    ```
+* 这时terminal显示
     ```golang
     2017/05/04 16:21:05 start server on port :8080
     ```
@@ -48,7 +72,29 @@
 
 如何使用:
 -------------------------------
-
+* 生成app
+    ```
+    beauty generate app的名字
+    ```
+* 生成的app列表
+    >GOPATH
+    >>src
+    >>>yourAppName
+    >>>>controllers 
+    >>>>>adminController.go
+    >>>>>
+    >>>>>controller_test.go
+    >>>>
+    >>>>models
+    >>>>
+    >>>>routers
+    >>>>>routers.go
+    >>>>
+    >>>>tpl
+    >>>>
+    >>>>utils
+    >>>>
+    >>>>main.go
 * 关于路由
     ```golang
     type Route struct {
@@ -289,7 +335,7 @@
 将要实现:
 ----------------------------------
 
-* [ ] 命令行工具
+* [x] 命令行工具
 * [ ] 继续提升文档质量
 * [ ] 权限控制
 * [ ] 增加测试覆盖率

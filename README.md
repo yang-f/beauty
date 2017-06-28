@@ -13,12 +13,34 @@ quick start:
 * run cmd
     ```
     mkdir demo && cd demo
+    go get gopkg.in/alecthomas/kingpin.v2
     go get github.com/yang-f/beauty
     ```
 * add $GOPATH/bin to your $PATH
-* run cmd
+
+* run cmd beauty
+
     ```
-    beauty
+    usage: beauty [<flags>] <command> [<args> ...]
+    
+    A command-line tools of beauty.
+    
+    Flags:
+      --help  Show context-sensitive help (also try --help-long and --help-man).
+    
+    Commands:
+      help [<command>...]
+        Show help.
+    
+      demo
+        Demo of web server.
+    
+      generate <name>
+        Generate a new app.
+    ```
+* test beauty
+    ```
+    beauty demo
     ```
 * then
     ```golang
@@ -46,6 +68,30 @@ quick start:
 
 How to use:
 -------------------------------
+* Generate new app
+    ```
+    beauty generate yourAppName
+    ```
+* dir list
+    >GOPATH
+    >>src
+    >>>yourAppName
+    >>>>controllers 
+    >>>>>adminController.go
+    >>>>>
+    >>>>>controller_test.go
+    >>>>
+    >>>>models
+    >>>>
+    >>>>routers
+    >>>>>routers.go
+    >>>>
+    >>>>tpl
+    >>>>
+    >>>>utils
+    >>>>
+    >>>>main.go
+
 
 * about Route
     ```golang
@@ -271,6 +317,6 @@ Contributing:
 TODO:
 ----------------------------------
 
-* [ ] Cmd tools
+* [x] Cmd tools
 * [ ] Improve document
 * [ ] Role review
