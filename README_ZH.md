@@ -4,7 +4,7 @@
 [![GoDoc](https://godoc.org/github.com/imroc/req?status.svg)](https://godoc.org/github.com/imroc/req)
 [![yang-f](https://avatars1.githubusercontent.com/u/4221375?v=3&s=460)](https://github.com/yang-f)
 
-这是一个Golang实现的简易框架
+👩这是一个Golang实现的简易框架
 ==============================
 
 你通过它可以实现一个简单的restful工程。
