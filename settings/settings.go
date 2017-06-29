@@ -28,17 +28,14 @@ import (
 	"log"
 )
 
-var Listen = ":8080"
-
-var HmacSampleSecret = []byte("whatever")
-
-var LogFile = "/var/log/beauty/beauty.log"
-
-var Domain = "xxxx.com"
-
-var DefaultOrigin = "http://origin.com"
-
-var Local = map[string]string{}
+var (
+	Listen           = ":8080"
+	HmacSampleSecret = []byte("whatever")
+	LogFile          = "/var/log/beauty/beauty.log"
+	Domain           = "xxxx.com"
+	DefaultOrigin    = "http://origin.com"
+	Local            = map[string]string{}
+)
 
 func init() {
 	bytes, err := ioutil.ReadFile("/srv/filestore/settings/latest.json")
