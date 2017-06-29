@@ -31,11 +31,19 @@ import (
 )
 
 func CurrentUser(r *http.Request) *models.User {
-	cookie, err := r.Cookie("token")
-	if err != nil || cookie.Value == "" {
-		return &models.User{}
+	tokenString := ""
+	cookie, _ := r.Cookie("token")
+	if cookie != nil {
+		tokenString = cookie.Value
 	}
-	key, err := token.Valid(cookie.Value)
+	if tokenString == "" {
+		if r.Header != nil {
+			if authorization := r.Header["Authorization"]; len(authorization) > 0 {
+				tokenString = authorization[0]
+			}
+		}
+	}
+	key, err := token.Valid(tokenString)
 	if err != nil {
 		return &models.User{}
 	}
