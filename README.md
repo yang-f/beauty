@@ -295,7 +295,7 @@ Etc:
 
     insert into user (user_name, user_pass) values('admin', 'admin');
     ``` 
-* you need set a json file in '/srv/filestore/settings/latest.json' fomart like this
+* you need set a json file in '/srv/filestore/settings/latest.json' format like this
     ```golang
     {
         "mysql_host":"127.0.0.1:3306",
