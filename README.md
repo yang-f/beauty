@@ -4,10 +4,11 @@
 [![GoDoc](https://godoc.org/github.com/imroc/req?status.svg)](https://godoc.org/github.com/imroc/req)
 [![yang-f](https://avatars1.githubusercontent.com/u/4221375?v=3&s=460)](https://github.com/yang-f)
 
-👩A simple framwork with golang.
+👩A simple framwork written in golang.
 ==============================
 
 You can build a simple restful project with it.
+If you dosen't want to use mysql db, you can implement your own Auth decorates and session.You can use your own DAO or whatever you like.
 
 quick start:
 ------------------------------
