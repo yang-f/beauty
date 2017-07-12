@@ -7,7 +7,7 @@
 👩A simple framwork written in golang.
 ==============================
 
-You can build a simple restful project with it.
+You can build a simple restful project or a web application with it.
 If you dosen't want to use mysql db, you can implement your own Auth decorates and session.You can use your own DAO or whatever you like.
 
 quick start:
