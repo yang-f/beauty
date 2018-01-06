@@ -1,9 +1,9 @@
 * [English](README.md)
 * [中文](README_ZH.md)
 
-[![GoDoc](https://godoc.org/github.com/imroc/req?status.svg)](https://godoc.org/github.com/imroc/req)
+[![GoDoc](https://godoc.org/github.com/yang-f/beauty?status.svg)](https://godoc.org/github.com/yang-f/beauty)
 
-👩这是一个Golang实现的简易框架
+这是一个Golang实现的简易框架
 ==============================
 
 你通过它可以实现一个简单的restful工程或者是一个web应用。
@@ -77,25 +77,19 @@
     ```
     beauty generate app的名字
     ```
-* 生成的app列表
-    >GOPATH
-    >>src
-    >>>yourAppName
-    >>>>controllers 
-    >>>>>adminController.go
-    >>>>>
-    >>>>>controller_test.go
-    >>>>
-    >>>>models
-    >>>>
-    >>>>routers
-    >>>>>routers.go
-    >>>>
-    >>>>tpl
-    >>>>
-    >>>>utils
-    >>>>
-    >>>>main.go
+* 生成的app目录列表
+    ```
+    GOPATH/src/yourAppName
+        ├── controllers
+        │   ├── adminController.go
+        │   └── controller_test.go
+        ├── main.go
+        ├── models
+        ├── routers
+        │   └── routes.go
+        ├── tpl
+        └── utils
+    ```
 * 关于路由
     ```golang
     type Route struct {

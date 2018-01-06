@@ -1,9 +1,9 @@
 * [English](README.md)
 * [中文](README_ZH.md)
 
-[![GoDoc](https://godoc.org/github.com/imroc/req?status.svg)](https://godoc.org/github.com/imroc/req)
+[![GoDoc](https://godoc.org/github.com/yang-f/beauty?status.svg)](https://godoc.org/github.com/yang-f/beauty)
 
-👩A simple framwork written in golang.
+A simple framwork written in golang.
 ==============================
 
 You can build a simple restful project or a web application with it.
@@ -74,25 +74,18 @@ How to use:
     beauty generate yourAppName
     ```
 * dir list
-    >GOPATH
-    >>src
-    >>>yourAppName
-    >>>>controllers 
-    >>>>>adminController.go
-    >>>>>
-    >>>>>controller_test.go
-    >>>>
-    >>>>models
-    >>>>
-    >>>>routers
-    >>>>>routers.go
-    >>>>
-    >>>>tpl
-    >>>>
-    >>>>utils
-    >>>>
-    >>>>main.go
-
+    ```
+    GOPATH/src/yourAppName
+    ├── controllers
+    │   ├── adminController.go
+    │   └── controller_test.go
+    ├── main.go
+    ├── models
+    ├── routers
+    │   └── routes.go
+    ├── tpl
+    └── utils
+    ```
 
 * about Route
     ```golang
