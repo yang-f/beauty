@@ -46,10 +46,12 @@ func Valid(tokenString string) (string, error) {
 		}
 		return settings.HmacSampleSecret, nil
 	})
+	if err != nil {
+		return "", err
+	}
 
 	if claims, ok := token1.Claims.(jwt.MapClaims); ok && token1.Valid {
 		return fmt.Sprintf("%v", claims["key"]), nil
-	} else {
-		return "", err
 	}
+	return "", errors.Errorf("Token valid err")
 }
