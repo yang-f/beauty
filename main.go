@@ -24,13 +24,14 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
 	"github.com/yang-f/beauty/utils"
 	"github.com/yang-f/beauty/utils/log"
 	"gopkg.in/alecthomas/kingpin.v2"
-	"net/http"
-	"os"
 )
 
 var (
@@ -44,9 +45,9 @@ func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case generate.FullCommand():
 		GOPATH := os.Getenv("GOPATH")
-		appPath := fmt.Sprintf("%v/src/%v", GOPATH, *name)
-		origin := fmt.Sprintf("%v/src/github.com/yang-f/beauty/etc/demo.zip", GOPATH)
-		dst := fmt.Sprintf("%v.zip", appPath)
+		appPath := fmt.Sprintf("%s/src/%s", GOPATH, *name)
+		origin := fmt.Sprintf("%s/src/github.com/yang-f/beauty/etc/demo.zip", GOPATH)
+		dst := fmt.Sprintf("%s.zip", appPath)
 		_, err := utils.CopyFile(dst, origin)
 		if err != nil {
 			fmt.Println(err.Error())

@@ -23,12 +23,13 @@
 package controllers_test
 
 import (
-	"github.com/yang-f/beauty/db"
-	"github.com/yang-f/beauty/router"
-	"github.com/yang-f/beauty/settings"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/yang-f/beauty/db"
+	"github.com/yang-f/beauty/router"
+	"github.com/yang-f/beauty/settings"
 )
 
 func init() {

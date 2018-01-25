@@ -73,7 +73,9 @@ func Post(url string, params string) (string, error) {
 	req.Header.Set("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)")
 
 	resp, err := client.Do(req)
-
+	if err != nil {
+		return "", err
+	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
@@ -85,16 +87,18 @@ func Post(url string, params string) (string, error) {
 }
 
 func Unzip(src_zip string, dest string) error {
-	unzip_file, err := zip.OpenReader(src_zip)
+	unzipFile, err := zip.OpenReader(src_zip)
 	if err != nil {
 		return err
 	}
+	defer unzipFile.Close()
 	os.MkdirAll(dest, 0755)
-	for _, f := range unzip_file.File {
+	for _, f := range unzipFile.File {
 		rc, err := f.Open()
 		if err != nil {
 			return err
 		}
+		defer rc.Close()
 		path := filepath.Join(dest, f.Name)
 		if f.FileInfo().IsDir() {
 			os.MkdirAll(path, f.Mode())
@@ -103,16 +107,15 @@ func Unzip(src_zip string, dest string) error {
 			if err != nil {
 				return err
 			}
+			defer f.Close()
 			_, err = io.Copy(f, rc)
 			if err != nil {
 				if err != io.EOF {
 					return err
 				}
 			}
-			f.Close()
 		}
 	}
-	unzip_file.Close()
 	return nil
 }
 

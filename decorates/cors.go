@@ -23,9 +23,10 @@
 package decorates
 
 import (
+	"net/http"
+
 	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/settings"
-	"net/http"
 )
 
 func CorsHeader(inner Handler) Handler {

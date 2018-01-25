@@ -23,12 +23,13 @@
 package decorates
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/yang-f/beauty/db"
 	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/utils/log"
 	"github.com/yang-f/beauty/utils/token"
-	"net/http"
-	"strings"
 )
 
 func (inner Handler) Auth() Handler {
@@ -47,18 +48,38 @@ func (inner Handler) Auth() Handler {
 		}
 		key, err := token.Valid(tokenString)
 		if err != nil {
-			return &models.APPError{err, "bad token.", "AUTH_FAILED", 403}
+			return &models.APPError{
+				Error:   err,
+				Message: "bad token.",
+				Code:    "AUTH_FAILED",
+				Status:  403,
+			}
 		}
 		if !strings.Contains(key, "|") {
-			return &models.APPError{err, "user not found.", "NOT_FOUND", 404}
+			return &models.APPError{
+				Error:   err,
+				Message: "user not found.",
+				Code:    "NOT_FOUND",
+				Status:  404,
+			}
 		}
 		keys := strings.Split(key, "|")
 		rows, _, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
 		if err != nil {
-			return &models.APPError{err, "can not connect database.", "DB_ERROR", 500}
+			return &models.APPError{
+				Error:   err,
+				Message: "can not connect database.",
+				Code:    "DB_ERROR",
+				Status:  500,
+			}
 		}
 		if len(rows) == 0 {
-			return &models.APPError{err, "user not found.", "NOT_FOUND", 404}
+			return &models.APPError{
+				Error:   err,
+				Message: "user not found.",
+				Code:    "NOT_FOUND",
+				Status:  404,
+			}
 		}
 		go log.Printf("user_id:%v", keys[0])
 		inner.ServeHTTP(w, r)

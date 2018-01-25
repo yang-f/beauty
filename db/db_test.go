@@ -24,9 +24,10 @@ package db_test
 
 import (
 	"errors"
+	"testing"
+
 	"github.com/yang-f/beauty/db"
 	"github.com/yang-f/beauty/settings"
-	"testing"
 )
 
 func init() {

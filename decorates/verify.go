@@ -25,11 +25,12 @@ package decorates
 import (
 	"bytes"
 	"fmt"
-	"github.com/gorilla/mux"
-	"github.com/yang-f/beauty/models"
 	"io/ioutil"
 	"net/http"
 	"regexp"
+
+	"github.com/gorilla/mux"
+	"github.com/yang-f/beauty/models"
 )
 
 func (inner Handler) Verify() Handler {
@@ -46,16 +47,36 @@ func (inner Handler) Verify() Handler {
 			r.Body = ioutil.NopCloser(bytes.NewBuffer(result))
 		}
 		if err != nil {
-			return &models.APPError{err, "insecure params.", "INSECURE_PARAMES", 403}
+			return &models.APPError{
+				Error:   err,
+				Message: "insecure params.",
+				Code:    "INSECURE_PARAMES",
+				Status:  403,
+			}
 		}
 		if sqlInjection.MatchString(string(result)) {
-			return &models.APPError{err, "insecure params.", "INSECURE_PARAMES", 403}
+			return &models.APPError{
+				Error:   err,
+				Message: "insecure params.",
+				Code:    "INSECURE_PARAMES",
+				Status:  403,
+			}
 		}
 		if sqlInjection.MatchString(fmt.Sprintf("%v", mux.Vars(r))) {
-			return &models.APPError{err, "insecure params.", "INSECURE_PARAMES", 403}
+			return &models.APPError{
+				Error:   err,
+				Message: "insecure params.",
+				Code:    "INSECURE_PARAMES",
+				Status:  403,
+			}
 		}
 		if sqlInjection.MatchString(fmt.Sprintf("%v", r.Form)) {
-			return &models.APPError{err, "insecure params.", "INSECURE_PARAMES", 403}
+			return &models.APPError{
+				Error:   err,
+				Message: "insecure params.",
+				Code:    "INSECURE_PARAMES",
+				Status:  403,
+			}
 		}
 
 		inner.ServeHTTP(w, r)

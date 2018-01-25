@@ -23,10 +23,11 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 	. "github.com/yang-f/beauty/decorates"
 	"github.com/yang-f/beauty/models"
-	"net/http"
 )
 
 var router *mux.Router
@@ -36,7 +37,7 @@ func NewRouter() *mux.Router {
 		router = mux.NewRouter().StrictSlash(true)
 	}
 	for _, route := range BRoutes {
-		var handler Handler = CorsHeader(route.HandlerFunc)
+		handler := CorsHeader(route.HandlerFunc)
 		handler = ContentType(handler, route.ContentType)
 		handler = Logger(handler, route.Name)
 		router.

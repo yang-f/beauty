@@ -23,13 +23,15 @@
 package sessions
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/yang-f/beauty/db"
 	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/utils/token"
-	"net/http"
-	"strings"
 )
 
+// CurrentUser for session
 func CurrentUser(r *http.Request) *models.User {
 	tokenString := ""
 	cookie, _ := r.Cookie("token")

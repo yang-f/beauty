@@ -23,9 +23,10 @@
 package decorates
 
 import (
+	"net/http"
+
 	"github.com/yang-f/beauty/models"
 	"github.com/yang-f/beauty/utils"
-	"net/http"
 )
 
 type Handler func(http.ResponseWriter, *http.Request) *models.APPError

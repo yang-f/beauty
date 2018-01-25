@@ -23,8 +23,9 @@
 package decorates
 
 import (
-	"github.com/yang-f/beauty/models"
 	"net/http"
+
+	"github.com/yang-f/beauty/models"
 )
 
 func ContentType(inner Handler, contentType string) Handler {

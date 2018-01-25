@@ -23,10 +23,11 @@
 package decorates
 
 import (
-	"github.com/yang-f/beauty/models"
-	"github.com/yang-f/beauty/utils/log"
 	"net/http"
 	"time"
+
+	"github.com/yang-f/beauty/models"
+	"github.com/yang-f/beauty/utils/log"
 )
 
 func Logger(inner Handler, name string) Handler {

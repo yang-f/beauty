@@ -23,8 +23,9 @@
 package controllers
 
 import (
-	"github.com/yang-f/beauty/models"
 	"net/http"
+
+	"github.com/yang-f/beauty/models"
 )
 
 func Config(w http.ResponseWriter, r *http.Request) *models.APPError {

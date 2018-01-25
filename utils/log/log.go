@@ -25,7 +25,6 @@ package log
 import (
 	"bytes"
 	"fmt"
-	"github.com/yang-f/beauty/settings"
 	"log"
 	"os"
 	"os/exec"
@@ -33,6 +32,8 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/yang-f/beauty/settings"
 )
 
 var Fatalln = log.Fatalln
