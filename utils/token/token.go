@@ -24,9 +24,11 @@ package token
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/yang-f/beauty/settings"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/pkg/errors"
+	"github.com/yang-f/beauty/settings"
 )
 
 func Generate(key string) (string, error) {
