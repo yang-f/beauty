@@ -36,33 +36,42 @@ type Router struct {
 	*mux.Router
 }
 
-func New(routes []*Route) *Router {
+func (r *Router) GET(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "GET",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) register(route *Route) {
+	handler := route.Handler.
+		CorsHeader().
+		ContentType(route.ContentType).
+		Logger()
+	router.
+		Methods(route.Method).
+		Path(route.Pattern).
+		Handler(handler)
+	router.
+		Methods("OPTIONS").
+		Path(route.Pattern).
+		Name("cors").
+		Handler(
+			decorates.Handler(
+				func(w http.ResponseWriter, r *http.Request) *models.APPError {
+					return nil
+				},
+			).CorsHeader(),
+		)
+}
+
+func New() *Router {
 	if router == nil {
 		router = &Router{
 			mux.NewRouter().StrictSlash(true),
 		}
-	}
-	for _, route := range routes {
-		handler := route.Handler.
-			CorsHeader().
-			ContentType(route.ContentType).
-			Logger(route.Name)
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
-		router.
-			Methods("OPTIONS").
-			Path(route.Pattern).
-			Name("cors").
-			Handler(
-				decorates.Handler(
-					func(w http.ResponseWriter, r *http.Request) *models.APPError {
-						return nil
-					},
-				).CorsHeader(),
-			)
 	}
 	return router
 }

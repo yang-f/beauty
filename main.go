@@ -27,6 +27,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/yang-f/beauty/controllers"
+	"github.com/yang-f/beauty/decorates"
+
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
 	"github.com/yang-f/beauty/utils"
@@ -63,7 +66,11 @@ func main() {
 		log.Printf("Generate %s success.", *name)
 	case demo.FullCommand():
 		log.Printf("Start server on port %s", settings.Listen)
-		router := router.New(router.BRoutes)
-		log.Fatal(http.ListenAndServe(settings.Listen, router))
+		r := router.New()
+		r.GET("/", decorates.Handler(controllers.Config))
+		r.GET("/demo1", decorates.Handler(controllers.Config).Auth())
+		r.GET("/demo2", decorates.Handler(controllers.Config).Verify())
+		r.GET("/demo3", decorates.Handler(controllers.Config).Auth().Verify())
+		log.Fatal(http.ListenAndServe(settings.Listen, r))
 	}
 }

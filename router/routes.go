@@ -23,52 +23,12 @@
 package router
 
 import (
-	"github.com/yang-f/beauty/consts/contenttype"
-	"github.com/yang-f/beauty/controllers"
 	"github.com/yang-f/beauty/decorates"
 )
 
 type Route struct {
-	Name        string
 	Method      string
 	Pattern     string
 	Handler     decorates.Handler
 	ContentType string
-}
-
-type Routes []*Route
-
-var BRoutes = Routes{
-	&Route{
-		"nothing",
-		"GET",
-		"/",
-		controllers.Config,
-		contenttype.JSON,
-	},
-	&Route{
-		"authDemo",
-		"GET",
-		"/demo1",
-		decorates.Handler(controllers.Config).
-			Auth(),
-		contenttype.JSON,
-	},
-	&Route{
-		"verifyDemo",
-		"GET",
-		"/demo2",
-		decorates.Handler(controllers.Config).
-			Verify(),
-		contenttype.JSON,
-	},
-	&Route{
-		"verifyAndAuthDemo",
-		"GET",
-		"/demo3",
-		decorates.Handler(controllers.Config).
-			Auth().
-			Verify(),
-		contenttype.JSON,
-	},
 }

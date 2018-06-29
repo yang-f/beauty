@@ -27,7 +27,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/yang-f/beauty/controllers"
 	"github.com/yang-f/beauty/db"
+	"github.com/yang-f/beauty/decorates"
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
 )
@@ -63,6 +65,11 @@ func TestConfig(t *testing.T) {
 		{"/demo3", 403, `{"status":403,"description":"token not found.","code":"AUTH_FAILED"}`, "GET"},
 	}
 
+	r := router.New()
+	r.GET("/", decorates.Handler(controllers.Config))
+	r.GET("/demo1", decorates.Handler(controllers.Config).Auth())
+	r.GET("/demo2", decorates.Handler(controllers.Config).Verify())
+	r.GET("/demo3", decorates.Handler(controllers.Config).Auth().Verify())
 	for _, test := range tests {
 		req, err := http.NewRequest(test.Method, test.Pattern, nil)
 		if err != nil {
@@ -70,8 +77,7 @@ func TestConfig(t *testing.T) {
 		}
 		rr := httptest.NewRecorder()
 
-		router := router.New(router.BRoutes)
-		router.ServeHTTP(rr, req)
+		r.ServeHTTP(rr, req)
 		if status := rr.Code; status != test.Status {
 			t.Errorf("handler returned wrong status code: got %v want %v",
 				status, http.StatusOK)
@@ -84,6 +90,11 @@ func TestConfig(t *testing.T) {
 }
 
 func Benchmark_config(b *testing.B) {
+	r := router.New()
+	r.GET("/", decorates.Handler(controllers.Config))
+	r.GET("/demo1", decorates.Handler(controllers.Config).Auth())
+	r.GET("/demo2", decorates.Handler(controllers.Config).Verify())
+	r.GET("/demo3", decorates.Handler(controllers.Config).Auth().Verify())
 	for i := 0; i < b.N; i++ {
 		req, err := http.NewRequest("GET", "/", nil)
 		if err != nil {
@@ -91,8 +102,7 @@ func Benchmark_config(b *testing.B) {
 		}
 		rr := httptest.NewRecorder()
 
-		router := router.New(router.BRoutes)
-		router.ServeHTTP(rr, req)
+		r.ServeHTTP(rr, req)
 		if status := rr.Code; status != http.StatusOK {
 			b.Errorf("handler returned wrong status code: got %v want %v",
 				status, http.StatusOK)
