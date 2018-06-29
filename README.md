@@ -105,7 +105,8 @@ How to use:
         
         r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
         
-		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+
     ```
 * token generate
     ```golang
@@ -139,7 +140,7 @@ How to use:
         
         r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
         
-		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 
         settings.Listen = ":8080"
 

@@ -108,7 +108,7 @@
         
         r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
         
-		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
     ```
 * token生成
     ```golang
@@ -143,7 +143,7 @@
         
         r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
         
-		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 
         settings.Listen = ":8080"//服务运行端口
 
