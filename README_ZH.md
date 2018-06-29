@@ -89,13 +89,6 @@
         └── utils
     ```
 * 关于路由
-    ```golang
-    type Route struct {
-        Method      string //GET PUT POST DELETE ...
-        Pattern     string //对用的访问路径
-        HandlerFunc decorates.Handler //处理当前路由的Controller或者handler
-    }
-    ```
     * 例子
     ```golang
         r := router.New()

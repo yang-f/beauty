@@ -86,13 +86,6 @@ How to use:
     ```
 
 * about Route
-    ```golang
-    type Route struct {
-        Method      string //GET PUT POST DELETE ...
-        Pattern     string //Path
-        HandlerFunc decorates.Handler //Controller or handler
-    }
-    ```
     * demo
     ```golang
         r := router.New()
@@ -140,7 +133,7 @@ How to use:
         settings.DefaultOrigin = "http://defaultorigin.com"
 
         settings.HmacSampleSecret = "whatever"
-        
+
         r := router.New()
         
         r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
