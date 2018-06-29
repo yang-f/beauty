@@ -29,7 +29,7 @@ import (
 	"github.com/yang-f/beauty/settings"
 )
 
-func CorsHeader(inner Handler) Handler {
+func (inner Handler) CorsHeader() Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		origin := r.Header.Get("Origin")
 		if origin == "" {

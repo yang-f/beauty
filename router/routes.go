@@ -24,15 +24,15 @@ package router
 
 import (
 	"github.com/yang-f/beauty/consts/contenttype"
-	. "github.com/yang-f/beauty/controllers"
-	. "github.com/yang-f/beauty/decorates"
+	"github.com/yang-f/beauty/controllers"
+	"github.com/yang-f/beauty/decorates"
 )
 
 type Route struct {
 	Name        string
 	Method      string
 	Pattern     string
-	HandlerFunc Handler
+	Handler     decorates.Handler
 	ContentType string
 }
 
@@ -43,14 +43,14 @@ var BRoutes = Routes{
 		"nothing",
 		"GET",
 		"/",
-		Config,
+		controllers.Config,
 		contenttype.JSON,
 	},
 	Route{
 		"authDemo",
 		"GET",
 		"/demo1",
-		Handler(Config).
+		decorates.Handler(controllers.Config).
 			Auth(),
 		contenttype.JSON,
 	},
@@ -58,7 +58,7 @@ var BRoutes = Routes{
 		"verifyDemo",
 		"GET",
 		"/demo2",
-		Handler(Config).
+		decorates.Handler(controllers.Config).
 			Verify(),
 		contenttype.JSON,
 	},
@@ -66,7 +66,7 @@ var BRoutes = Routes{
 		"verifyAndAuthDemo",
 		"GET",
 		"/demo3",
-		Handler(Config).
+		decorates.Handler(controllers.Config).
 			Auth().
 			Verify(),
 		contenttype.JSON,

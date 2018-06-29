@@ -30,7 +30,7 @@ import (
 	"github.com/yang-f/beauty/utils/log"
 )
 
-func Logger(inner Handler, name string) Handler {
+func (inner Handler) Logger(name string) Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		start := time.Now()
 

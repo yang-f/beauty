@@ -26,20 +26,27 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	. "github.com/yang-f/beauty/decorates"
+	"github.com/yang-f/beauty/decorates"
 	"github.com/yang-f/beauty/models"
 )
 
-var router *mux.Router
+var router *Router
 
-func NewRouter() *mux.Router {
+type Router struct {
+	*mux.Router
+}
+
+func New() *Router {
 	if router == nil {
-		router = mux.NewRouter().StrictSlash(true)
+		router = &Router{
+			mux.NewRouter().StrictSlash(true),
+		}
 	}
 	for _, route := range BRoutes {
-		handler := CorsHeader(route.HandlerFunc)
-		handler = ContentType(handler, route.ContentType)
-		handler = Logger(handler, route.Name)
+		handler := route.Handler.
+			CorsHeader().
+			ContentType(route.ContentType).
+			Logger(route.Name)
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
@@ -49,9 +56,13 @@ func NewRouter() *mux.Router {
 			Methods("OPTIONS").
 			Path(route.Pattern).
 			Name("cors").
-			Handler(CorsHeader(Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
-				return nil
-			})))
+			Handler(
+				decorates.Handler(
+					func(w http.ResponseWriter, r *http.Request) *models.APPError {
+						return nil
+					},
+				).CorsHeader(),
+			)
 	}
 
 	return router
