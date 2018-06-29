@@ -111,7 +111,7 @@ How to use:
                 "authDemo",
                 "GET",
                 "/demo1",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth(),
                 contenttype.JSON,
             },//route need auth
@@ -119,7 +119,7 @@ How to use:
                 "verifyDemo",
                 "GET",
                 "/demo2",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Verify(),
                 contenttype.JSON,
             },//route need verify, such as sql injection
@@ -127,7 +127,7 @@ How to use:
                 "verifyAndAuthDemo",
                 "GET",
                 "/demo3",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth().
                     Verify(),
                 contenttype.JSON,
