@@ -67,10 +67,10 @@ func main() {
 	case demo.FullCommand():
 		log.Printf("Start server on port %s", settings.Listen)
 		r := router.New()
-		r.GET("/", decorates.Handler(controllers.Config))
-		r.GET("/demo1", decorates.Handler(controllers.Config).Auth())
-		r.GET("/demo2", decorates.Handler(controllers.Config).Verify())
-		r.GET("/demo3", decorates.Handler(controllers.Config).Auth().Verify())
+		r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+		r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+		r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 		log.Fatal(http.ListenAndServe(settings.Listen, r))
 	}
 }

@@ -90,49 +90,22 @@ How to use:
 * about Route
     ```golang
     type Route struct {
-        Name        string //Show route name in log file
         Method      string //GET PUT POST DELETE ...
         Pattern     string //Path
         HandlerFunc decorates.Handler //Controller or handler
-        ContentType string //"application/json;charset=utf-8" or "text/html" etc...
     }
     ```
     * demo
     ```golang
-        router.BRoutes = router.Routes{
-            router.Route{
-                "nothing",
-                "GET",
-                "/",
-                controllers.Config,
-                contenttype.JSON,
-            },//normal route
-            router.Route{
-                "authDemo",
-                "GET",
-                "/demo1",
-                decorates.Handler(controllers.Config).
-                    Auth(),
-                contenttype.JSON,
-            },//route need auth
-            router.Route{
-                "verifyDemo",
-                "GET",
-                "/demo2",
-                decorates.Handler(controllers.Config).
-                    Verify(),
-                contenttype.JSON,
-            },//route need verify, such as sql injection
-            router.Route{
-                "verifyAndAuthDemo",
-                "GET",
-                "/demo3",
-                decorates.Handler(controllers.Config).
-                    Auth().
-                    Verify(),
-                contenttype.JSON,
-            },//both
-        }
+        r := router.New()
+
+        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        
+        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        
+        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        
+		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
     ```
 * token generate
     ```golang
@@ -159,40 +132,14 @@ How to use:
 
         log.Printf("start server on port %s", settings.Listen)
 
-        router.BRoutes = router.Routes{
-        	router.Route{
-                "nothing",
-                "GET",
-                "/",
-                controllers.Config,
-                contenttype.JSON,
-            },
-            router.Route{
-                "authDemo",
-                "GET",
-                "/demo1",
-                decorates.Handler(controllers.Config).
-                    Auth(),
-                contenttype.JSON,
-            },
-            router.Route{
-                "verifyDemo",
-                "GET",
-                "/demo2",
-                decorates.Handler(controllers.Config).
-                    Verify(),
-                contenttype.JSON,
-            },
-            router.Route{
-                "verifyAndAuthDemo",
-                "GET",
-                "/demo3",
-                decorates.Handler(controllers.Config).
-                    Auth().
-                    Verify(),
-                contenttype.JSON,
-            },
-        }
+        r := router.New()
+        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        
+        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        
+        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        
+		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 
         settings.Listen = ":8080"
 
@@ -204,9 +151,7 @@ How to use:
 
         settings.HmacSampleSecret = "whatever"
 
-        router := router.New()
-
-        log.Fatal(http.ListenAndServe(settings.Listen, router))
+        log.Fatal(http.ListenAndServe(settings.Listen, r))
 
     }
     ```

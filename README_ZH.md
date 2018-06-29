@@ -93,53 +93,22 @@
 * 关于路由
     ```golang
     type Route struct {
-        Name        string //日志中显示的路由名称
         Method      string //GET PUT POST DELETE ...
         Pattern     string //对用的访问路径
         HandlerFunc decorates.Handler //处理当前路由的Controller或者handler
-        ContentType string //返回的数据类型"application/json;charset=utf-8" 或者 "text/html" 等等 ...
     }
     ```
     * 例子
     ```golang
-        import (
-            "github.com/yang-f/beauty/decorates"
+        r := router.New()
 
-        )
-        router.BRoutes = router.Routes{
-            router.Route{
-                "nothing",
-                "GET",
-                "/",
-                controllers.Config,
-                contenttype.JSON,
-            },//正常路由
-            router.Route{
-                "authDemo",
-                "GET",
-                "/demo1",
-                decorates.Handler(controllers.Config).
-                    Auth(),
-                contenttype.JSON,
-            },//需要验证用户信息
-            router.Route{
-                "verifyDemo",
-                "GET",
-                "/demo2",
-                decorates.Handler(controllers.Config).
-                    Verify(),
-                contenttype.JSON,
-            },//需要过滤非法提交信息，比如SQL注入
-            router.Route{
-                "verifyAndAuthDemo",
-                "GET",
-                "/demo3",
-                decorates.Handler(controllers.Config).
-                    Auth().
-                    Verify(),
-                contenttype.JSON,
-            },//都需要，也可以自己扩展，参考decorate实现。
-        }
+        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        
+        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        
+        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        
+		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
     ```
 * token生成
     ```golang
@@ -166,40 +135,15 @@
 
         log.Printf("start server on port %s", settings.Listen)
 
-        router.BRoutes = router.Routes{
-            router.Route{
-                "nothing",
-                "GET",
-                "/",
-                controllers.Config,
-                contenttype.JSON,
-            },
-            router.Route{
-                "authDemo",
-                "GET",
-                "/demo1",
-                decorates.Handler(controllers.Config).
-                    Auth(),
-                contenttype.JSON,
-            },
-            router.Route{
-                "verifyDemo",
-                "GET",
-                "/demo2",
-                decorates.Handler(controllers.Config).
-                    Verify(),
-                contenttype.JSON,
-            },
-            router.Route{
-                "verifyAndAuthDemo",
-                "GET",
-                "/demo3",
-                decorates.Handler(controllers.Config).
-                    Auth().
-                    Verify(),
-                contenttype.JSON,
-            },
-        }
+         r := router.New()
+
+        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        
+        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        
+        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        
+		r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 
         settings.Listen = ":8080"//服务运行端口
 
@@ -211,9 +155,7 @@
 
         settings.HmacSampleSecret = "whatever"//令牌生产需要的字符串
 
-        router := router.New()
-
-        log.Fatal(http.ListenAndServe(settings.Listen, router))
+        log.Fatal(http.ListenAndServe(settings.Listen, r))
 
     }
     ```

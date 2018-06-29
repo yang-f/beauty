@@ -48,7 +48,6 @@ func (r *Router) GET(path string, handler decorates.Handler) {
 func (r *Router) register(route *Route) {
 	handler := route.Handler.
 		CorsHeader().
-		ContentType(route.ContentType).
 		Logger()
 	router.
 		Methods(route.Method).

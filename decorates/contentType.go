@@ -25,12 +25,38 @@ package decorates
 import (
 	"net/http"
 
+	"github.com/yang-f/beauty/consts/contenttype"
+
 	"github.com/yang-f/beauty/models"
 )
 
 func (inner Handler) ContentType(contentType string) Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
 		w.Header().Set("Content-Type", contentType)
+		inner.ServeHTTP(w, r)
+		return nil
+	})
+}
+
+func (inner Handler) ContentJSON() Handler {
+	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
+		w.Header().Set("Content-Type", contenttype.JSON)
+		inner.ServeHTTP(w, r)
+		return nil
+	})
+}
+
+func (inner Handler) ContentHTML() Handler {
+	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
+		w.Header().Set("Content-Type", contenttype.HTML)
+		inner.ServeHTTP(w, r)
+		return nil
+	})
+}
+
+func (inner Handler) ContentPLAIN() Handler {
+	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
+		w.Header().Set("Content-Type", contenttype.PLAIN)
 		inner.ServeHTTP(w, r)
 		return nil
 	})
