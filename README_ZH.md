@@ -103,7 +103,7 @@
     * 例子
     ```golang
         import (
-            . "github.com/yang-f/beauty/decorates"
+            "github.com/yang-f/beauty/decorates"
 
         )
         router.BRoutes = router.Routes{
@@ -118,7 +118,7 @@
                 "authDemo",
                 "GET",
                 "/demo1",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth(),
                 contenttype.JSON,
             },//需要验证用户信息
@@ -126,7 +126,7 @@
                 "verifyDemo",
                 "GET",
                 "/demo2",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Verify(),
                 contenttype.JSON,
             },//需要过滤非法提交信息，比如SQL注入
@@ -134,7 +134,7 @@
                 "verifyAndAuthDemo",
                 "GET",
                 "/demo3",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth().
                     Verify(),
                 contenttype.JSON,
@@ -158,7 +158,7 @@
         "github.com/yang-f/beauty/router"
         "github.com/yang-f/beauty/settings"
         "github.com/yang-f/beauty/controllers"
-        . "github.com/yang-f/beauty/decorates"
+        "github.com/yang-f/beauty/decorates"
 
     )
 
@@ -178,7 +178,7 @@
                 "authDemo",
                 "GET",
                 "/demo1",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth(),
                 contenttype.JSON,
             },
@@ -186,7 +186,7 @@
                 "verifyDemo",
                 "GET",
                 "/demo2",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Verify(),
                 contenttype.JSON,
             },
@@ -194,7 +194,7 @@
                 "verifyAndAuthDemo",
                 "GET",
                 "/demo3",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth().
                     Verify(),
                 contenttype.JSON,
@@ -211,7 +211,7 @@
 
         settings.HmacSampleSecret = "whatever"//令牌生产需要的字符串
 
-        router := router.NewRouter()
+        router := router.New()
 
         log.Fatal(http.ListenAndServe(settings.Listen, router))
 

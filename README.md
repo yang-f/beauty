@@ -151,7 +151,7 @@ How to use:
         "github.com/yang-f/beauty/router"
         "github.com/yang-f/beauty/settings"
         "github.com/yang-f/beauty/controllers"
-        . "github.com/yang-f/beauty/decorates"
+        "github.com/yang-f/beauty/decorates"
 
     )
 
@@ -171,7 +171,7 @@ How to use:
                 "authDemo",
                 "GET",
                 "/demo1",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth(),
                 contenttype.JSON,
             },
@@ -179,7 +179,7 @@ How to use:
                 "verifyDemo",
                 "GET",
                 "/demo2",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Verify(),
                 contenttype.JSON,
             },
@@ -187,7 +187,7 @@ How to use:
                 "verifyAndAuthDemo",
                 "GET",
                 "/demo3",
-                Handler(controllers.Config).
+                decorates.Handler(controllers.Config).
                     Auth().
                     Verify(),
                 contenttype.JSON,
@@ -204,7 +204,7 @@ How to use:
 
         settings.HmacSampleSecret = "whatever"
 
-        router := router.NewRouter()
+        router := router.New()
 
         log.Fatal(http.ListenAndServe(settings.Listen, router))
 
