@@ -45,6 +45,69 @@ func (r *Router) GET(path string, handler decorates.Handler) {
 	r.register(route)
 }
 
+func (r *Router) POST(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "POST",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) PUT(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "PUT",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) TRACE(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "TRACE",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) HEAD(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "HEAD",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) OPTIONS(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "OPTIONS",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) LOCK(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "LOCK",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
+func (r *Router) DELETE(path string, handler decorates.Handler) {
+	route := &Route{
+		Method:  "DELETE",
+		Handler: handler,
+		Pattern: path,
+	}
+	r.register(route)
+}
+
 func (r *Router) register(route *Route) {
 	handler := route.Handler.
 		CorsHeader().
