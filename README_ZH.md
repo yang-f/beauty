@@ -133,16 +133,6 @@
 
         log.Printf("start server on port %s", settings.Listen)
 
-         r := router.New()
-
-        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
-        
-        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
-        
-        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
-        
-        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
-
         settings.Listen = ":8080"//服务运行端口
 
         settings.Domain = "yourdomain.com"//部署服务的域名
@@ -152,6 +142,16 @@
         settings.DefaultOrigin = "http://defaultorigin.com"//默认的请求来源
 
         settings.HmacSampleSecret = "whatever"//令牌生产需要的字符串
+
+        r := router.New()
+
+        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        
+        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        
+        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        
+        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 
         log.Fatal(http.ListenAndServe(settings.Listen, r))
 

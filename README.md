@@ -131,15 +131,6 @@ How to use:
 
         log.Printf("start server on port %s", settings.Listen)
 
-        r := router.New()
-        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
-        
-        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
-        
-        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
-        
-        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
-
         settings.Listen = ":8080"
 
         settings.Domain = "yourdomain.com"
@@ -149,6 +140,16 @@ How to use:
         settings.DefaultOrigin = "http://defaultorigin.com"
 
         settings.HmacSampleSecret = "whatever"
+        
+        r := router.New()
+        
+        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        
+        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        
+        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        
+        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
 
         log.Fatal(http.ListenAndServe(settings.Listen, r))
 
