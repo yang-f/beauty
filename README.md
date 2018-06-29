@@ -81,8 +81,6 @@ How to use:
     │   └── controller_test.go
     ├── main.go
     ├── models
-    ├── routers
-    │   └── routes.go
     ├── tpl
     └── utils
     ```
