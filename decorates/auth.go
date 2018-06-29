@@ -46,6 +46,14 @@ func (inner Handler) Auth() Handler {
 				}
 			}
 		}
+		if tokenString == "" {
+			return &models.APPError{
+				Error:   nil,
+				Message: "token not found.",
+				Code:    "AUTH_FAILED",
+				Status:  403,
+			}
+		}
 		key, err := token.Valid(tokenString)
 		if err != nil {
 			return &models.APPError{

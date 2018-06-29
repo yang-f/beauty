@@ -70,7 +70,7 @@ func TestConfig(t *testing.T) {
 		}
 		rr := httptest.NewRecorder()
 
-		router := router.NewRouter()
+		router := router.New(router.BRoutes)
 		router.ServeHTTP(rr, req)
 		if status := rr.Code; status != test.Status {
 			t.Errorf("handler returned wrong status code: got %v want %v",
@@ -91,7 +91,7 @@ func Benchmark_config(b *testing.B) {
 		}
 		rr := httptest.NewRecorder()
 
-		router := router.NewRouter()
+		router := router.New(router.BRoutes)
 		router.ServeHTTP(rr, req)
 		if status := rr.Code; status != http.StatusOK {
 			b.Errorf("handler returned wrong status code: got %v want %v",

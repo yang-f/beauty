@@ -63,7 +63,7 @@ func main() {
 		log.Printf("Generate %s success.", *name)
 	case demo.FullCommand():
 		log.Printf("Start server on port %s", settings.Listen)
-		router := router.New()
+		router := router.New(router.BRoutes)
 		log.Fatal(http.ListenAndServe(settings.Listen, router))
 	}
 }

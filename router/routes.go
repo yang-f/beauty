@@ -36,17 +36,17 @@ type Route struct {
 	ContentType string
 }
 
-type Routes []Route
+type Routes []*Route
 
 var BRoutes = Routes{
-	Route{
+	&Route{
 		"nothing",
 		"GET",
 		"/",
 		controllers.Config,
 		contenttype.JSON,
 	},
-	Route{
+	&Route{
 		"authDemo",
 		"GET",
 		"/demo1",
@@ -54,7 +54,7 @@ var BRoutes = Routes{
 			Auth(),
 		contenttype.JSON,
 	},
-	Route{
+	&Route{
 		"verifyDemo",
 		"GET",
 		"/demo2",
@@ -62,7 +62,7 @@ var BRoutes = Routes{
 			Verify(),
 		contenttype.JSON,
 	},
-	Route{
+	&Route{
 		"verifyAndAuthDemo",
 		"GET",
 		"/demo3",

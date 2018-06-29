@@ -36,13 +36,13 @@ type Router struct {
 	*mux.Router
 }
 
-func New() *Router {
+func New(routes []*Route) *Router {
 	if router == nil {
 		router = &Router{
 			mux.NewRouter().StrictSlash(true),
 		}
 	}
-	for _, route := range BRoutes {
+	for _, route := range routes {
 		handler := route.Handler.
 			CorsHeader().
 			ContentType(route.ContentType).
@@ -64,6 +64,5 @@ func New() *Router {
 				).CorsHeader(),
 			)
 	}
-
 	return router
 }
