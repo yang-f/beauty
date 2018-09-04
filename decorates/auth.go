@@ -34,18 +34,14 @@ import (
 
 func (inner Handler) Auth() Handler {
 	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
-		tokenString := ""
-		cookie, _ := r.Cookie("token")
-		if cookie != nil {
+		var tokenString string
+		if cookie, _ := r.Cookie("token"); cookie != nil {
 			tokenString = cookie.Value
 		}
 		if tokenString == "" {
-			if r.Header != nil {
-				if authorization := r.Header["Authorization"]; len(authorization) > 0 {
-					tokenString = authorization[0]
-				}
-			}
+			tokenString = r.Header.Get("Authorization")
 		}
+
 		if tokenString == "" {
 			return &models.APPError{
 				Error:   nil,
@@ -54,6 +50,7 @@ func (inner Handler) Auth() Handler {
 				Status:  403,
 			}
 		}
+
 		key, err := token.Valid(tokenString)
 		if err != nil {
 			return &models.APPError{
@@ -63,16 +60,19 @@ func (inner Handler) Auth() Handler {
 				Status:  403,
 			}
 		}
-		if !strings.Contains(key, "|") {
+
+		keys := strings.Split(key, "|")
+		if len(keys) != 2 {
 			return &models.APPError{
 				Error:   err,
-				Message: "user not found.",
-				Code:    "NOT_FOUND",
-				Status:  404,
+				Message: "bad token.",
+				Code:    "AUTH_FAILED",
+				Status:  403,
 			}
 		}
-		keys := strings.Split(key, "|")
-		rows, _, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
+
+		userID, userPass := keys[0], keys[1]
+		rows, _, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", userID, userPass)
 		if err != nil {
 			return &models.APPError{
 				Error:   err,
@@ -89,7 +89,7 @@ func (inner Handler) Auth() Handler {
 				Status:  404,
 			}
 		}
-		go log.Printf("user_id:%v", keys[0])
+		go log.Printf("user_id:%v", userID)
 		inner.ServeHTTP(w, r)
 		return nil
 	})

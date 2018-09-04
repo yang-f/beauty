@@ -23,6 +23,7 @@
 package sessions
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 
@@ -32,35 +33,31 @@ import (
 )
 
 // CurrentUser for session
-func CurrentUser(r *http.Request) *models.User {
+func CurrentUser(r *http.Request) (*models.User, error) {
 	tokenString := ""
-	cookie, _ := r.Cookie("token")
-	if cookie != nil {
+	if cookie, _ := r.Cookie("token"); cookie != nil {
 		tokenString = cookie.Value
 	}
+
 	if tokenString == "" {
-		if r.Header != nil {
-			if authorization := r.Header["Authorization"]; len(authorization) > 0 {
-				tokenString = authorization[0]
-			}
-		}
+		tokenString = r.Header.Get("Authorization")
 	}
 	key, err := token.Valid(tokenString)
 	if err != nil {
-		return &models.User{}
-	}
-	if !strings.Contains(key, "|") {
-		return &models.User{}
+		return nil, err
 	}
 	keys := strings.Split(key, "|")
-	rows, res, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", keys[0], keys[1])
-
-	if err != nil {
-		return &models.User{}
+	if len(keys) != 2 {
+		return nil, errors.New("bad token")
 	}
 
+	userID, userPass := keys[0], keys[1]
+	rows, res, err := db.QueryNonLogging("select * from user where user_id = '%v' and user_pass = '%v'", userID, userPass)
+	if err != nil {
+		return nil, err
+	}
 	if len(rows) == 0 {
-		return &models.User{}
+		return nil, errors.New("user not found")
 	}
 	row := rows[0]
 	user := models.User{
@@ -69,5 +66,5 @@ func CurrentUser(r *http.Request) *models.User {
 		User_type: row.Str(res.Map("user_type")),
 		Add_time:  row.Str(res.Map("add_time"))}
 
-	return &user
+	return &user, nil
 }
