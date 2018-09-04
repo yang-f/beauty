@@ -204,7 +204,7 @@ Support:
 
 * test
     * go test -v -bench=".*"
-    * go run controllers/controller_test.go
+    * go test -v -short $(go list ./... | grep -v /vendor/)
     * ...
 
 Etc:
