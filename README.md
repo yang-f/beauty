@@ -186,13 +186,15 @@ Support:
     ```
 * error handler
     ```golang
-    func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
-        xxx,err := someOperation()
-        if err != nil{
-            return &models.APPError {err, Message, Code, Status}
+    func XxxxController() decorates.Handler{
+        return func (w http.ResponseWriter, r *http.Request) *models.APPError {
+            xxx,err := someOperation()
+            if err != nil{
+                return &models.APPError {err, Message, Code, Status}
+            }
+            ...
+            return nil
         }
-        ...
-        return nil
     }
     ```
 
