@@ -90,13 +90,13 @@ How to use:
     ```golang
         r := router.New()
 
-        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        r.GET("/", controllers.Config().ContentJSON())
         
-        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        r.GET("/demo1", controllers.Config().ContentJSON().Auth())
         
-        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        r.GET("/demo2", controllers.Config().ContentJSON().Verify())
         
-        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
 
     ```
 * token generate
@@ -136,13 +136,13 @@ How to use:
 
         r := router.New()
         
-        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        r.GET("/", controllers.Config().ContentJSON())
         
-        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        r.GET("/demo1", controllers.Config().ContentJSON().Auth())
         
-        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        r.GET("/demo2", controllers.Config().ContentJSON().Verify())
         
-        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
 
         log.Fatal(http.ListenAndServe(settings.Listen, r))
 

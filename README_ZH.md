@@ -93,13 +93,13 @@
     ```golang
         r := router.New()
 
-        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        r.GET("/", controllers.Config().ContentJSON())
         
-        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        r.GET("/demo1", controllers.Config().ContentJSON().Auth())
         
-        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        r.GET("/demo2", controllers.Config().ContentJSON().Verify())
         
-        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
     ```
 * token生成
     ```golang
@@ -138,13 +138,13 @@
 
         r := router.New()
 
-        r.GET("/", decorates.Handler(controllers.Config).ContentJSON())
+        r.GET("/", controllers.Config().ContentJSON())
         
-        r.GET("/demo1", decorates.Handler(controllers.Config).ContentJSON().Auth())
+        r.GET("/demo1", controllers.Config().ContentJSON().Auth())
         
-        r.GET("/demo2", decorates.Handler(controllers.Config).ContentJSON().Verify())
+        r.GET("/demo2", controllers.Config().ContentJSON().Verify())
         
-        r.GET("/demo3", decorates.Handler(controllers.Config).ContentJSON().Auth().Verify())
+        r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
 
         log.Fatal(http.ListenAndServe(settings.Listen, r))
 
@@ -157,14 +157,7 @@
     * 这是一个统一的参数校验，主要是针对SQL注入，有了它，或许就不用一个一个参数做校验了。
     * 使用方式
     ```golang
-    router.Route{
-        "authDemo",
-        "GET",
-        "/demo1",
-        Handler(controllers.Config).
-            Verify(),
-        contenttype.JSON,
-    },//需要验证用户信息
+    r.GET("/", controllers.Config().ContentJSON().Verify())//需要验证用户信息
     ```
 * 令牌 
     ```golang
@@ -200,13 +193,15 @@
     ```
 * 错误处理以及http状态管理
     ```golang
-    func XxxxController(w http.ResponseWriter, r *http.Request) *models.APPError {
-        xxx,err := someOperation()
-        if err != nil{
-            return &models.APPError {err, Message, Code, Status}
+    func XxxxController() decorates.Handler{
+        return func (w http.ResponseWriter, r *http.Request) *models.APPError {
+            xxx,err := someOperation()
+            if err != nil{
+                return &models.APPError {err, Message, Code, Status}
+            }
+            ...
+            return nil
         }
-        ...
-        return nil
     }
     ```
 

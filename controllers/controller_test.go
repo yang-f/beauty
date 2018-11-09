@@ -28,7 +28,6 @@ import (
 	"testing"
 
 	"github.com/yang-f/beauty/db"
-	"github.com/yang-f/beauty/decorates"
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
 )
@@ -65,10 +64,10 @@ func TestConfig(t *testing.T) {
 	}
 
 	r := router.New()
-	r.GET("/", decorates.Handler(Config))
-	r.GET("/demo1", decorates.Handler(Config).Auth())
-	r.GET("/demo2", decorates.Handler(Config).Verify())
-	r.GET("/demo3", decorates.Handler(Config).Auth().Verify())
+	r.GET("/", Config())
+	r.GET("/demo1", Config().Auth())
+	r.GET("/demo2", Config().Verify())
+	r.GET("/demo3", Config().Auth().Verify())
 	for _, test := range tests {
 		req, err := http.NewRequest(test.Method, test.Pattern, nil)
 		if err != nil {
@@ -90,10 +89,10 @@ func TestConfig(t *testing.T) {
 
 func Benchmark_config(b *testing.B) {
 	r := router.New()
-	r.GET("/", decorates.Handler(Config))
-	r.GET("/demo1", decorates.Handler(Config).Auth())
-	r.GET("/demo2", decorates.Handler(Config).Verify())
-	r.GET("/demo3", decorates.Handler(Config).Auth().Verify())
+	r.GET("/", Config())
+	r.GET("/demo1", Config().Auth())
+	r.GET("/demo2", Config().Verify())
+	r.GET("/demo3", Config().Auth().Verify())
 	for i := 0; i < b.N; i++ {
 		req, err := http.NewRequest("GET", "/", nil)
 		if err != nil {

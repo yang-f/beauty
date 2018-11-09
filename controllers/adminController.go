@@ -25,11 +25,15 @@ package controllers
 import (
 	"net/http"
 
+	"github.com/yang-f/beauty/decorates"
 	"github.com/yang-f/beauty/models"
 )
 
-func Config(w http.ResponseWriter, r *http.Request) *models.APPError {
-	b := []byte(`{"description":"this is json"}`)
-	w.Write(b)
-	return nil
+// Config ...
+func Config() decorates.Handler {
+	return func(w http.ResponseWriter, r *http.Request) *models.APPError {
+		b := []byte(`{"description":"this is json"}`)
+		w.Write(b)
+		return nil
+	}
 }
