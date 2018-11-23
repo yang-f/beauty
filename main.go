@@ -26,6 +26,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/yang-f/beauty/controllers"
 
@@ -47,12 +48,27 @@ func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case generate.FullCommand():
 		GOPATH := os.Getenv("GOPATH")
-		appPath := fmt.Sprintf("%s/src/%s", GOPATH, *name)
-		origin := fmt.Sprintf("%s/src/github.com/yang-f/beauty/etc/demo.zip", GOPATH)
+		gopathLst := strings.Split(GOPATH, ":")
+		GOPATH_r := ""
+		origin := ""
+		origin_p := "github.com/yang-f/beauty/etc/demo.zip"
+		for _, gopathLstItem := range gopathLst {
+			origin_t := fmt.Sprintf("%s/src/"+origin_p, gopathLstItem)
+			_, err := os.Stat(origin_t)
+			if err == nil {
+				GOPATH_r = gopathLstItem
+				origin = origin_t
+				break
+			}
+		}
+		if origin == "" {
+			log.Fatal("Err_Fatal: " + "can not find " + origin_p + " in your gopath.")
+		}
+		appPath := fmt.Sprintf("%s/src/%s", GOPATH_r, *name)
 		dst := fmt.Sprintf("%s.zip", appPath)
 		_, err := utils.CopyFile(dst, origin)
 		if err != nil {
-			fmt.Println(err.Error())
+			log.Fatal("Err_Fatal: " + err.Error())
 		}
 		utils.Unzip(dst, appPath)
 		os.RemoveAll(dst)
