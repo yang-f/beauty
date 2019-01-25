@@ -47,26 +47,26 @@ var (
 func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case generate.FullCommand():
-		GOPATH := os.Getenv("GOPATH")
-		gopathLst := strings.Split(GOPATH, ":")
-		GOPATH_r := ""
-		origin := ""
-		origin_p := "github.com/yang-f/beauty/etc/demo.zip"
-		for _, gopathLstItem := range gopathLst {
-			origin_t := fmt.Sprintf("%s/src/"+origin_p, gopathLstItem)
-			_, err := os.Stat(origin_t)
+		goPathEnv := os.Getenv("GOPATH")
+		goPaths := strings.Split(goPathEnv, ":")
+		targetGoPath := ""
+		targetZipPath := ""
+		tailZipPath := "github.com/yang-f/beauty/etc/demo.zip"
+		for _, goPath := range goPaths {
+			tempZipPath := fmt.Sprintf("%s/src/%s", goPath, tailZipPath)
+			_, err := os.Stat(tempZipPath)
 			if err == nil {
-				GOPATH_r = gopathLstItem
-				origin = origin_t
+				targetGoPath = goPath
+				targetZipPath = tempZipPath
 				break
 			}
 		}
-		if origin == "" {
-			log.Fatal("Err_Fatal: " + "can not find " + origin_p + " in your gopath.")
+		if targetZipPath == "" {
+			log.Fatal("Fatal: can not find " + tailZipPath + " in your gopath.")
 		}
-		appPath := fmt.Sprintf("%s/src/%s", GOPATH_r, *name)
+		appPath := fmt.Sprintf("%s/src/%s", targetGoPath, *name)
 		dst := fmt.Sprintf("%s.zip", appPath)
-		_, err := utils.CopyFile(dst, origin)
+		_, err := utils.CopyFile(dst, targetZipPath)
 		if err != nil {
 			log.Fatal("Err_Fatal: " + err.Error())
 		}
