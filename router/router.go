@@ -69,21 +69,18 @@ func (r *Router) DELETE(path string, handler decorates.Handler) {
 }
 
 func (r *Router) register(method, path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  method,
-		Handler: handler,
-		Pattern: path,
-	}
-	handler = route.Handler.
+	handler = handler.
 		CorsHeader().
 		Logger()
+
 	router.
-		Methods(route.Method).
-		Path(route.Pattern).
+		Methods(method).
+		Path(path).
 		Handler(handler)
+
 	router.
 		Methods("OPTIONS").
-		Path(route.Pattern).
+		Path(path).
 		Name("cors").
 		Handler(
 			decorates.Handler(
@@ -95,10 +92,11 @@ func (r *Router) register(method, path string, handler decorates.Handler) {
 }
 
 func New() *Router {
-	if router == nil {
-		router = &Router{
-			mux.NewRouter().StrictSlash(true),
-		}
+	if router != nil {
+		return router
+	}
+	router = &Router{
+		mux.NewRouter().StrictSlash(true),
 	}
 	return router
 }
