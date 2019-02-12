@@ -37,79 +37,44 @@ type Router struct {
 }
 
 func (r *Router) GET(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "GET",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("GET", path, handler)
 }
 
 func (r *Router) POST(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "POST",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("POST", path, handler)
 }
 
 func (r *Router) PUT(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "PUT",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("PUT", path, handler)
 }
 
 func (r *Router) TRACE(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "TRACE",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("TRACE", path, handler)
 }
 
 func (r *Router) HEAD(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "HEAD",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("HEAD", path, handler)
 }
 
 func (r *Router) OPTIONS(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "OPTIONS",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("OPTIONS", path, handler)
 }
 
 func (r *Router) LOCK(path string, handler decorates.Handler) {
-	route := &Route{
-		Method:  "LOCK",
-		Handler: handler,
-		Pattern: path,
-	}
-	r.register(route)
+	r.register("LOCK", path, handler)
 }
 
 func (r *Router) DELETE(path string, handler decorates.Handler) {
+	r.register("DELETE", path, handler)
+}
+
+func (r *Router) register(method, path string, handler decorates.Handler) {
 	route := &Route{
-		Method:  "DELETE",
+		Method:  method,
 		Handler: handler,
 		Pattern: path,
 	}
-	r.register(route)
-}
-
-func (r *Router) register(route *Route) {
-	handler := route.Handler.
+	handler = route.Handler.
 		CorsHeader().
 		Logger()
 	router.
