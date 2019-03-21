@@ -30,13 +30,13 @@ import (
 )
 
 type response struct {
-	Status      int    `json:"status"`
 	Description string `json:"description"`
 	Code        string `json:"code"`
+	Status      int    `json:"status"`
 }
 
 func Response(w http.ResponseWriter, description string, code string, status int) {
-	out := &response{status, description, code}
+	out := &response{description, code, status}
 	b, err := json.Marshal(out)
 	if err != nil {
 		return

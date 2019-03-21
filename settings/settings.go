@@ -26,6 +26,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"strings"
 )
 
 var (
@@ -37,15 +38,26 @@ var (
 	Local            = map[string]string{}
 )
 
-func init() {
-	bytes, err := ioutil.ReadFile("/srv/filestore/settings/latest.json")
+func InitLocal(jsonPath string) {
+	if strings.TrimSpace(jsonPath) == "" {
+		jsonPath = "/srv/filestore/settings/latest.json"
+	}
+
+	bytes, err := ioutil.ReadFile(jsonPath)
 	if err != nil {
-		log.Println("ReadFile: ", err.Error())
+		// log.Println("ReadFile: ", err.Error())
+		log.Println("ReadFile:", "read the setting json file failed.")
 		return
 	}
 
 	if err := json.Unmarshal(bytes, &Local); err != nil {
-		log.Println("Unmarshal: ", err.Error())
+		log.Println("Unmarshal:", err.Error())
 		return
 	}
+
+	log.Println("ReadFile:", "read the setting json file done or updated.")
+}
+
+func init() {
+	InitLocal("")
 }
