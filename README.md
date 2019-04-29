@@ -82,7 +82,7 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
   │   ├── adminController.go
   │   └── controller_test.go
   ├── decorates
-  ├   └── http.go
+  |   └── http.go
   ├── main.go
   ├── models
   ├── tpl
@@ -159,3 +159,115 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
   ```
 
 ## Support:
+
+- token
+
+  ```golang
+  settings.HmacSampleSecret = "whatever"
+
+  token, err := token.Generate(origin)
+
+  origin, err := token.Valid(token)
+  ```
+
+- db
+  ```golang
+  db.Query(sql, params...)
+  ```
+- cors
+
+  - static file server
+
+  ```golang
+  router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", decorates.CorsHeader2(http.FileServer(http.Dir("/your/static/path")))))
+  ```
+
+  - api etc:
+    - default is cors
+
+- log
+
+  - use
+
+  ```golang
+  settings.LogFile = "/you/log/path/beauty.log"
+
+  log.Printf(msg, params...)
+  ```
+
+  - auto archive
+
+- sessions
+  ```golang
+  currentUser := sessions.CurrentUser(r *http.Request)
+  ```
+- error handler
+
+  ```golang
+  func XxxxController() decorates.Handler{
+      return func (w http.ResponseWriter, r *http.Request) *models.APPError {
+          xxx,err := someOperation()
+          if err != nil{
+              return &models.APPError {err, Message, Code, Status}
+          }
+          ...
+          return nil
+      }
+  }
+  ```
+
+- utils
+
+  - Response
+  - Rand
+  - MD5
+  - Post
+
+- test
+  - go test -v -bench=".\*"
+  - go test -v -short \$(go list ./... | grep -v /vendor/)
+  - ...
+
+## Etc:
+
+- sql
+
+  ```golang
+  create database yourdatabase;
+  use yourdatabase;
+  create table if not exists user
+  (
+      user_id int primary key not null  auto_increment,
+      user_name varchar(64),
+      user_pass varchar(64),
+      user_mobile varchar(32),
+      user_type enum('user', 'admin', 'test') not null,
+      add_time timestamp not null default CURRENT_TIMESTAMP
+  );
+
+  insert into user (user_name, user_pass) values('admin', 'admin');
+  ```
+
+- you need set a json file in '/srv/filestore/settings/latest.json' format like this
+  ```golang
+  {
+      "mysql_host":"127.0.0.1:3306",
+      "mysql_user":"root",
+      "mysql_pass":"root",
+      "mysql_database":"yourdatabase"
+  }
+  ```
+
+## Contributing:
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
+
+## TODO:
+
+- [x] Cmd tools
+- [ ] Improve document
+- [ ] Role review
