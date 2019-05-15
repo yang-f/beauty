@@ -271,3 +271,4 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 - [x] Cmd tools
 - [ ] Improve document
 - [ ] Role review
+- [ ] Error handler
