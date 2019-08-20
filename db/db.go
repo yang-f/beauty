@@ -23,8 +23,9 @@
 package db
 
 import (
+	"log"
+
 	"github.com/yang-f/beauty/settings"
-	"github.com/yang-f/beauty/utils/log"
 	"github.com/ziutek/mymysql/mysql"
 	_ "github.com/ziutek/mymysql/thrsafe"
 )

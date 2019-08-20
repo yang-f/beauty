@@ -22,6 +22,7 @@
   beauty
   ```
 - 这时显示如下
+
   ```
       usage: beauty [<flags>] <command> [<args> ...]
 
@@ -40,6 +41,7 @@
         generate <name>
           Generate a new app.
   ```
+
 - 测试 beauty
   ```
   beauty demo
@@ -55,18 +57,8 @@
   ```
 
 - 访问 127.0.0.1:8080/demo1
-
-  ```golang
-  {"status":403,"description":"token not found.","code":"AUTH_FAILED"}
-  ```
-
-- 访问 127.0.0.1:8080/demo2
   ```golang
   {"description":"this is json"}
-  ```
-- 访问 127.0.0.1:8080/demo3
-  ```golang
-  {"status":403,"description":"token not found.","code":"AUTH_FAILED"}
   ```
 - 恭喜你，运行成功。
 
@@ -98,11 +90,7 @@
 
       r.GET("/", controllers.Config().ContentJSON())
 
-      r.GET("/demo1", controllers.Config().ContentJSON().Auth())
-
-      r.GET("/demo2", controllers.Config().ContentJSON().Verify())
-
-      r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
+      r.GET("/demo1", controllers.Config().ContentJSON().Verify())
   ```
 
 - token 生成
@@ -119,8 +107,8 @@
 
   import (
       "net/http"
+      "log"
       "github.com/yang-f/beauty/consts/contenttype"
-      "github.com/yang-f/beauty/utils/log"
       "github.com/yang-f/beauty/router"
       "github.com/yang-f/beauty/settings"
       "github.com/yang-f/beauty/controllers"
@@ -136,8 +124,6 @@
 
       settings.Domain = "yourdomain.com"//部署服务的域名
 
-      settings.LogFile = "/your/path/yourname.log"//日志所在文件
-
       settings.DefaultOrigin = "http://defaultorigin.com"//默认的请求来源
 
       settings.HmacSampleSecret = "whatever"//令牌生产需要的字符串
@@ -146,11 +132,7 @@
 
       r.GET("/", controllers.Config().ContentJSON())
 
-      r.GET("/demo1", controllers.Config().ContentJSON().Auth())
-
-      r.GET("/demo2", controllers.Config().ContentJSON().Verify())
-
-      r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
+      r.GET("/demo1", controllers.Config().ContentJSON().Verify())
 
       log.Fatal(http.ListenAndServe(settings.Listen, r))
 
@@ -175,10 +157,6 @@
   origin, err := token.Valid(token)
   ```
 
-- 数据库操作（基于 mymysql）
-  ```golang
-  db.Query(sql, params...)
-  ```
 - cors 跨域
 
   - 静态文件
@@ -190,22 +168,6 @@
   - 其他:
     - 默认是支持跨域操作的
 
-- 日志
-
-  - 使用
-
-  ```golang
-  settings.LogFile = "/you/log/path/beauty.log"
-
-  log.Printf(msg, params...)
-  ```
-
-  - 每隔 12 小时且日志大于 50M 自动归档
-
-- 会话
-  ```golang
-  currentUser := sessions.CurrentUser(r *http.Request)
-  ```
 - 错误处理以及 http 状态管理
 
   ```golang
@@ -277,4 +239,4 @@
 - [ ] 继续提升文档质量
 - [ ] 权限控制
 - [ ] 增加测试覆盖率
-- [ ] 错误处理 
+- [ ] 错误处理

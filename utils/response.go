@@ -24,9 +24,8 @@ package utils
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
-
-	"github.com/yang-f/beauty/utils/log"
 )
 
 type response struct {

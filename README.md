@@ -56,16 +56,7 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 - visit 127.0.0.1:8080/demo1
 
   ```golang
-  {"status":403,"description":"token not found.","code":"AUTH_FAILED"}
-  ```
-
-- visit 127.0.0.1:8080/demo2
-  ```golang
   {"description":"this is json"}
-  ```
-- visit 127.0.0.1:8080/demo3
-  ```golang
-  {"status":403,"description":"token not found.","code":"AUTH_FAILED"}
   ```
 
 ## How to use:
@@ -98,11 +89,7 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 
       r.GET("/", controllers.Config().ContentJSON())
 
-      r.GET("/demo1", controllers.Config().ContentJSON().Auth())
-
-      r.GET("/demo2", controllers.Config().ContentJSON().Verify())
-
-      r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
+      r.GET("/demo1", controllers.Config().ContentJSON().Verify())
 
   ```
 
@@ -120,8 +107,8 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 
   import (
       "net/http"
+      "log"
       "github.com/yang-f/beauty/consts/contenttype"
-      "github.com/yang-f/beauty/utils/log"
       "github.com/yang-f/beauty/router"
       "github.com/yang-f/beauty/settings"
       "github.com/yang-f/beauty/controllers"
@@ -137,8 +124,6 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 
       settings.Domain = "yourdomain.com"
 
-      settings.LogFile = "/your/path/yourname.log"
-
       settings.DefaultOrigin = "http://defaultorigin.com"
 
       settings.HmacSampleSecret = "whatever"
@@ -147,14 +132,9 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 
       r.GET("/", controllers.Config().ContentJSON())
 
-      r.GET("/demo1", controllers.Config().ContentJSON().Auth())
-
-      r.GET("/demo2", controllers.Config().ContentJSON().Verify())
-
-      r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
+      r.GET("/demo1", controllers.Config().ContentJSON().Verify())
 
       log.Fatal(http.ListenAndServe(settings.Listen, r))
-
   }
   ```
 
@@ -162,18 +142,14 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
 
 - token
 
-  ```golang
-  settings.HmacSampleSecret = "whatever"
+```golang
+settings.HmacSampleSecret = "whatever"
 
-  token, err := token.Generate(origin)
+token, err := token.Generate(origin)
 
-  origin, err := token.Valid(token)
-  ```
+origin, err := token.Valid(token)
+```
 
-- db
-  ```golang
-  db.Query(sql, params...)
-  ```
 - cors
 
   - static file server
@@ -185,22 +161,6 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
   - api etc:
     - default is cors
 
-- log
-
-  - use
-
-  ```golang
-  settings.LogFile = "/you/log/path/beauty.log"
-
-  log.Printf(msg, params...)
-  ```
-
-  - auto archive
-
-- sessions
-  ```golang
-  currentUser := sessions.CurrentUser(r *http.Request)
-  ```
 - error handler
 
   ```golang
@@ -227,36 +187,6 @@ If you dosen't want to use mysql db, you can implement your own Auth decorates a
   - go test -v -bench=".\*"
   - go test -v -short \$(go list ./... | grep -v /vendor/)
   - ...
-
-## Etc:
-
-- sql
-
-  ```golang
-  create database yourdatabase;
-  use yourdatabase;
-  create table if not exists user
-  (
-      user_id int primary key not null  auto_increment,
-      user_name varchar(64),
-      user_pass varchar(64),
-      user_mobile varchar(32),
-      user_type enum('user', 'admin', 'test') not null,
-      add_time timestamp not null default CURRENT_TIMESTAMP
-  );
-
-  insert into user (user_name, user_pass) values('admin', 'admin');
-  ```
-
-- you need set a json file in '/srv/filestore/settings/latest.json' format like this
-  ```golang
-  {
-      "mysql_host":"127.0.0.1:3306",
-      "mysql_user":"root",
-      "mysql_pass":"root",
-      "mysql_database":"yourdatabase"
-  }
-  ```
 
 ## Contributing:
 

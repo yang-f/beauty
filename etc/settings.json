@@ -1,6 +1,0 @@
-{
-		"mysql_host":"127.0.0.1:3306",
-		"mysql_user":"root",
-		"mysql_pass":"root",
-		"mysql_database":"beauty"
-}

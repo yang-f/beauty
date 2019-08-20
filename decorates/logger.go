@@ -23,11 +23,11 @@
 package decorates
 
 import (
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/yang-f/beauty/models"
-	"github.com/yang-f/beauty/utils/log"
 )
 
 func (inner Handler) Logger() Handler {
@@ -36,7 +36,7 @@ func (inner Handler) Logger() Handler {
 
 		inner.ServeHTTP(w, r)
 
-		go log.Printf(
+		log.Printf(
 			"%s\t%s\t%s",
 			r.Method,
 			r.RequestURI,

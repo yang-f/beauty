@@ -22,42 +22,9 @@
 
 package settings
 
-import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
-	"strings"
-)
-
 var (
 	Listen           = ":8080"
 	HmacSampleSecret = []byte("whatever")
-	LogFile          = "/var/log/beauty/beauty.log"
 	Domain           = "xxxx.com"
 	DefaultOrigin    = "http://origin.com"
-	Local            = map[string]string{}
 )
-
-func InitLocal(jsonPath string) {
-	if strings.TrimSpace(jsonPath) == "" {
-		jsonPath = "/srv/filestore/settings/latest.json"
-	}
-
-	bytes, err := ioutil.ReadFile(jsonPath)
-	if err != nil {
-		// log.Println("ReadFile: ", err.Error())
-		log.Println("ReadFile:", "read the setting json file failed.")
-		return
-	}
-
-	if err := json.Unmarshal(bytes, &Local); err != nil {
-		log.Println("Unmarshal:", err.Error())
-		return
-	}
-
-	log.Println("ReadFile:", "read the setting json file done or updated.")
-}
-
-func init() {
-	InitLocal("")
-}

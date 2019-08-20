@@ -24,6 +24,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -33,7 +34,6 @@ import (
 	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/settings"
 	"github.com/yang-f/beauty/utils"
-	"github.com/yang-f/beauty/utils/log"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -83,9 +83,7 @@ func main() {
 		log.Printf("Start server on port %s", settings.Listen)
 		r := router.New()
 		r.GET("/", controllers.Config().ContentJSON())
-		r.GET("/demo1", controllers.Config().ContentJSON().Auth())
-		r.GET("/demo2", controllers.Config().ContentJSON().Verify())
-		r.GET("/demo3", controllers.Config().ContentJSON().Auth().Verify())
+		r.GET("/demo1", controllers.Config().ContentJSON().Verify())
 		log.Fatal(http.ListenAndServe(settings.Listen, r))
 	}
 }
