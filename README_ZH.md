@@ -75,7 +75,7 @@
       │   ├── adminController.go
       │   └── controller_test.go
       ├── decorates
-  ├       └── http.go
+      |   └── http.go
       ├── main.go
       ├── models
       ├── tpl
