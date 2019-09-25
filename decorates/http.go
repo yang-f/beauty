@@ -27,14 +27,19 @@ import (
 	"net/http"
 
 	"github.com/yang-f/beauty/models"
+	"github.com/yang-f/beauty/router"
 	"github.com/yang-f/beauty/utils"
 )
 
-type Handler func(http.ResponseWriter, *http.Request) *models.APPError
+type Handler func(c *router.Context) *models.APPError
 
 func (fn Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if e := fn(w, r); e != nil {
+	c := &router.Context{
+		W: w,
+		R: r,
+	}
+	if e := fn(c); e != nil {
 		log.Printf("info:%v", e.Error)
-		utils.Response(w, e.Message, e.Code, e.Status)
+		utils.Response(c.W, e.Message, e.Code, e.Status)
 	}
 }

@@ -24,22 +24,22 @@ package decorates
 
 import (
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/yang-f/beauty/models"
+	"github.com/yang-f/beauty/router"
 )
 
 func (inner Handler) Logger() Handler {
-	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
+	return Handler(func(c *router.Context) *models.APPError {
 		start := time.Now()
 
-		inner.ServeHTTP(w, r)
+		inner.ServeHTTP(c.W, c.R)
 
 		log.Printf(
 			"%s\t%s\t%s",
-			r.Method,
-			r.RequestURI,
+			c.R.Method,
+			c.R.RequestURI,
 			time.Since(start),
 		)
 		return nil

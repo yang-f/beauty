@@ -22,9 +22,16 @@
 
 package models
 
+import "fmt"
+
 type APPError struct {
-	Error   error
+	Err     error
 	Message string
 	Code    string
 	Status  int
+}
+
+func (e APPError) Error() string {
+	errorinfo := fmt.Sprintf("code: %s , message: %s , original err info : %s ", e.Code, e.Message, e.Err.Error())
+	return errorinfo
 }

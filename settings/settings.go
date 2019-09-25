@@ -25,6 +25,4 @@ package settings
 var (
 	Listen           = ":8080"
 	HmacSampleSecret = []byte("whatever")
-	Domain           = "xxxx.com"
-	DefaultOrigin    = "http://origin.com"
 )

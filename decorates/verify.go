@@ -26,25 +26,25 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"net/http"
 	"regexp"
 
 	"github.com/gorilla/mux"
 	"github.com/yang-f/beauty/models"
+	"github.com/yang-f/beauty/router"
 )
 
 func (inner Handler) Verify() Handler {
-	return Handler(func(w http.ResponseWriter, r *http.Request) *models.APPError {
+	return Handler(func(c *router.Context) *models.APPError {
 		sqlInjection, err := regexp.Compile(`(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|(\b(select|update|and|or|delete|insert|trancate|char|chr|into|substr|ascii|declare|exec|count|master|into|drop|execute)\b)`)
 		if err != nil {
 			return &models.APPError{err, "insecure params.", "INSECURE_PARAMES", 403}
 		}
 		result := []byte{}
 
-		if r.Body != nil {
-			result, err = ioutil.ReadAll(r.Body)
-			r.ParseForm()
-			r.Body = ioutil.NopCloser(bytes.NewBuffer(result))
+		if c.R.Body != nil {
+			result, err = ioutil.ReadAll(c.R.Body)
+			c.R.ParseForm()
+			c.R.Body = ioutil.NopCloser(bytes.NewBuffer(result))
 		}
 		if err != nil {
 			return &models.APPError{
@@ -62,7 +62,7 @@ func (inner Handler) Verify() Handler {
 				Status:  403,
 			}
 		}
-		if sqlInjection.MatchString(fmt.Sprintf("%v", mux.Vars(r))) {
+		if sqlInjection.MatchString(fmt.Sprintf("%v", mux.Vars(c.R))) {
 			return &models.APPError{
 				Error:   err,
 				Message: "insecure params.",
@@ -70,7 +70,7 @@ func (inner Handler) Verify() Handler {
 				Status:  403,
 			}
 		}
-		if sqlInjection.MatchString(fmt.Sprintf("%v", r.Form)) {
+		if sqlInjection.MatchString(fmt.Sprintf("%v", c.R.Form)) {
 			return &models.APPError{
 				Error:   err,
 				Message: "insecure params.",
@@ -79,7 +79,7 @@ func (inner Handler) Verify() Handler {
 			}
 		}
 
-		inner.ServeHTTP(w, r)
+		inner.ServeHTTP(c.W, c.R)
 		return nil
 	})
 }

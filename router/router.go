@@ -23,11 +23,7 @@
 package router
 
 import (
-	"net/http"
-
 	"github.com/gorilla/mux"
-	"github.com/yang-f/beauty/decorates"
-	"github.com/yang-f/beauty/models"
 )
 
 var router *Router
@@ -36,58 +32,55 @@ type Router struct {
 	*mux.Router
 }
 
-func (r *Router) GET(path string, handler decorates.Handler) {
+func (r *Router) GET(path string, handler func(c *Context) error) {
 	r.register("GET", path, handler)
 }
 
-func (r *Router) POST(path string, handler decorates.Handler) {
+func (r *Router) POST(path string, handler func(c *Context) error) {
 	r.register("POST", path, handler)
 }
 
-func (r *Router) PUT(path string, handler decorates.Handler) {
+func (r *Router) PUT(path string, handler func(c *Context) error) {
 	r.register("PUT", path, handler)
 }
 
-func (r *Router) TRACE(path string, handler decorates.Handler) {
+func (r *Router) TRACE(path string, handler func(c *Context) error) {
 	r.register("TRACE", path, handler)
 }
 
-func (r *Router) HEAD(path string, handler decorates.Handler) {
+func (r *Router) HEAD(path string, handler func(c *Context) error) {
 	r.register("HEAD", path, handler)
 }
 
-func (r *Router) OPTIONS(path string, handler decorates.Handler) {
+func (r *Router) OPTIONS(path string, handler func(c *Context) error) {
 	r.register("OPTIONS", path, handler)
 }
 
-func (r *Router) LOCK(path string, handler decorates.Handler) {
+func (r *Router) LOCK(path string, handler func(c *Context) error) {
 	r.register("LOCK", path, handler)
 }
 
-func (r *Router) DELETE(path string, handler decorates.Handler) {
+func (r *Router) DELETE(path string, handler func(c *Context) error) {
 	r.register("DELETE", path, handler)
 }
 
-func (r *Router) register(method, path string, handler decorates.Handler) {
-	handler = handler.
-		CorsHeader().
-		Logger()
-
+func (r *Router) register(method, path string, handlerFunc func(c *Context) error) {
+	h := handler(handlerFunc).logger().corsHeader()
 	router.
 		Methods(method).
 		Path(path).
-		Handler(handler)
+		Handler(h)
 
 	router.
 		Methods("OPTIONS").
 		Path(path).
 		Name("cors").
 		Handler(
-			decorates.Handler(
-				func(w http.ResponseWriter, r *http.Request) *models.APPError {
+			handler(
+				func(c *Context) error {
 					return nil
 				},
-			).CorsHeader(),
+			).corsHeader(),
 		)
 }
 
